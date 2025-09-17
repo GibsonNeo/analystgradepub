@@ -175,3 +175,275 @@ dispersion_score: 0 missing (0.0%)
 surprises_score: 0 missing (0.0%)
 coverage_score: 0 missing (0.0%)
 raw_weighted: 0 missing (0.0%)
+APIKEY Finnhub set=False
+APIKEY FMP set=False
+FH PT MSFT status=None
+FH REC MSFT status=None
+FH ER MSFT status=None
+SCHEMA[finnhub] MSFT: ['_history', 'asof', 'earnings', 'recommendations']
+SCHEMA[fmp] MSFT: ['analyst_estimates_stable', 'asof']
+YF PT fallback used for MSFT
+FH PT AAPL status=None
+FH REC AAPL status=None
+FH ER AAPL status=None
+SCHEMA[finnhub] AAPL: ['_history', 'asof', 'earnings', 'recommendations']
+SCHEMA[fmp] AAPL: ['analyst_estimates_stable', 'asof']
+YF PT fallback used for AAPL
+FH PT AMZN status=None
+FH REC AMZN status=None
+FH ER AMZN status=None
+SCHEMA[finnhub] AMZN: ['_history', 'asof', 'earnings', 'recommendations']
+SCHEMA[fmp] AMZN: ['analyst_estimates_stable', 'asof']
+YF PT fallback used for AMZN
+FH PT NVDA status=None
+FH REC NVDA status=None
+FH ER NVDA status=None
+YF PT fallback used for NVDA
+FH PT JNJ status=None
+FH REC JNJ status=None
+FH ER JNJ status=None
+YF PT fallback used for JNJ
+FH PT XOM status=None
+FH REC XOM status=None
+FH ER XOM status=None
+YF PT fallback used for XOM
+FH PT PLTR status=None
+FH REC PLTR status=None
+FH ER PLTR status=None
+FMP PLTR skipped: no API key
+YF PT fallback used for PLTR
+DEBUG: ticker=PLTR missing=rev_growth,ni_growth
+FH PT HOOD status=None
+FH REC HOOD status=None
+FH ER HOOD status=None
+FMP HOOD skipped: no API key
+YF PT fallback used for HOOD
+DEBUG: ticker=HOOD missing=rev_growth,ni_growth
+FH PT APP status=None
+FH REC APP status=None
+FH ER APP status=None
+FMP APP skipped: no API key
+YF PT fallback used for APP
+DEBUG: ticker=APP missing=rev_growth,ni_growth
+FH PT CLS status=None
+FH REC CLS status=None
+FH ER CLS status=None
+FMP CLS skipped: no API key
+YF PT fallback used for CLS
+DEBUG: ticker=CLS missing=rev_growth,ni_growth
+FH PT IBKR status=None
+FH REC IBKR status=None
+FH ER IBKR status=None
+FMP IBKR skipped: no API key
+YF PT fallback used for IBKR
+DEBUG: ticker=IBKR missing=rev_growth,ni_growth
+FH PT NFLX status=None
+FH REC NFLX status=None
+FH ER NFLX status=None
+FMP NFLX skipped: no API key
+YF PT fallback used for NFLX
+DEBUG: ticker=NFLX missing=rev_growth,ni_growth
+FH PT CSCO status=None
+FH REC CSCO status=None
+FH ER CSCO status=None
+FMP CSCO skipped: no API key
+YF PT fallback used for CSCO
+DEBUG: ticker=CSCO missing=rev_growth,ni_growth
+FH PT HWM status=None
+FH REC HWM status=None
+FH ER HWM status=None
+FMP HWM skipped: no API key
+YF PT fallback used for HWM
+DEBUG: ticker=HWM missing=rev_growth,ni_growth
+FH PT EAT status=None
+FH REC EAT status=None
+FH ER EAT status=None
+FMP EAT skipped: no API key
+YF PT fallback used for EAT
+DEBUG: ticker=EAT missing=rev_growth,ni_growth
+FH PT RCL status=None
+FH REC RCL status=None
+FH ER RCL status=None
+FMP RCL skipped: no API key
+YF PT fallback used for RCL
+DEBUG: ticker=RCL missing=rev_growth,ni_growth
+FH PT ETR status=None
+FH REC ETR status=None
+FH ER ETR status=None
+FMP ETR skipped: no API key
+YF PT fallback used for ETR
+DEBUG: ticker=ETR missing=rev_growth,ni_growth
+FH PT APH status=None
+FH REC APH status=None
+FH ER APH status=None
+FMP APH skipped: no API key
+YF PT fallback used for APH
+DEBUG: ticker=APH missing=rev_growth,ni_growth
+FH PT SCHW status=None
+FH REC SCHW status=None
+FH ER SCHW status=None
+FMP SCHW skipped: no API key
+YF PT fallback used for SCHW
+DEBUG: ticker=SCHW missing=rev_growth,ni_growth
+FH PT CME status=None
+FH REC CME status=None
+FH ER CME status=None
+FMP CME skipped: no API key
+YF PT fallback used for CME
+DEBUG: ticker=CME missing=rev_growth,ni_growth
+FH PT BROS status=None
+FH REC BROS status=None
+FH ER BROS status=None
+FMP BROS skipped: no API key
+YF PT fallback used for BROS
+DEBUG: ticker=BROS missing=rev_growth,ni_growth
+FH PT WELL status=None
+FH REC WELL status=None
+FH ER WELL status=None
+FMP WELL skipped: no API key
+YF PT fallback used for WELL
+DEBUG: ticker=WELL missing=rev_growth,ni_growth
+FH PT GE status=None
+FH REC GE status=None
+FH ER GE status=None
+FMP GE skipped: no API key
+YF PT fallback used for GE
+DEBUG: ticker=GE missing=rev_growth,ni_growth
+FH PT URBN status=None
+FH REC URBN status=None
+FH ER URBN status=None
+FMP URBN skipped: no API key
+YF PT fallback used for URBN
+DEBUG: ticker=URBN missing=rev_growth,ni_growth
+FH PT MNST status=None
+FH REC MNST status=None
+FH ER MNST status=None
+FMP MNST skipped: no API key
+YF PT fallback used for MNST
+DEBUG: ticker=MNST missing=rev_growth,ni_growth
+FH PT CDE status=None
+FH REC CDE status=None
+FH ER CDE status=None
+FMP CDE skipped: no API key
+YF PT fallback used for CDE
+DEBUG: ticker=CDE missing=rev_growth,ni_growth
+FH PT EQT status=None
+FH REC EQT status=None
+FH ER EQT status=None
+FMP EQT skipped: no API key
+YF PT fallback used for EQT
+DEBUG: ticker=EQT missing=rev_growth,ni_growth
+FH PT BSX status=None
+FH REC BSX status=None
+FH ER BSX status=None
+FMP BSX skipped: no API key
+YF PT fallback used for BSX
+DEBUG: ticker=BSX missing=rev_growth,ni_growth
+FH PT AM status=None
+FH REC AM status=None
+FH ER AM status=None
+FMP AM skipped: no API key
+YF PT fallback used for AM
+DEBUG: ticker=AM missing=rev_growth,ni_growth
+FH PT META status=None
+FH REC META status=None
+FH ER META status=None
+FMP META skipped: no API key
+YF PT fallback used for META
+DEBUG: ticker=META missing=rev_growth,ni_growth
+FH PT WMB status=None
+FH REC WMB status=None
+FH ER WMB status=None
+FMP WMB skipped: no API key
+YF PT fallback used for WMB
+DEBUG: ticker=WMB missing=rev_growth,ni_growth
+FH PT RMBS status=None
+FH REC RMBS status=None
+FH ER RMBS status=None
+FMP RMBS skipped: no API key
+YF PT fallback used for RMBS
+DEBUG: ticker=RMBS missing=rev_growth,ni_growth
+FH PT VEEV status=None
+FH REC VEEV status=None
+FH ER VEEV status=None
+FMP VEEV skipped: no API key
+YF PT fallback used for VEEV
+DEBUG: ticker=VEEV missing=rev_growth,ni_growth
+FH PT MSFT status=None
+FH REC MSFT status=None
+FH ER MSFT status=None
+YF PT fallback used for MSFT
+FH PT DOCS status=None
+FH REC DOCS status=None
+FH ER DOCS status=None
+FMP DOCS skipped: no API key
+YF PT fallback used for DOCS
+DEBUG: ticker=DOCS missing=rev_growth,ni_growth
+FH PT NEM status=None
+FH REC NEM status=None
+FH ER NEM status=None
+FMP NEM skipped: no API key
+YF PT fallback used for NEM
+DEBUG: ticker=NEM missing=rev_growth,ni_growth
+FH PT NVDA status=None
+FH REC NVDA status=None
+FH ER NVDA status=None
+YF PT fallback used for NVDA
+FH PT HESM status=None
+FH REC HESM status=None
+FH ER HESM status=None
+FMP HESM skipped: no API key
+YF PT fallback used for HESM
+DEBUG: ticker=HESM missing=rev_growth,ni_growth
+FH PT CTRE status=None
+FH REC CTRE status=None
+FH ER CTRE status=None
+FMP CTRE skipped: no API key
+YF PT fallback used for CTRE
+DEBUG: ticker=CTRE missing=rev_growth,ni_growth
+FH PT ANET status=None
+FH REC ANET status=None
+FH ER ANET status=None
+FMP ANET skipped: no API key
+YF PT fallback used for ANET
+DEBUG: ticker=ANET missing=rev_growth,ni_growth
+FH PT LNG status=None
+FH REC LNG status=None
+FH ER LNG status=None
+FMP LNG skipped: no API key
+YF PT fallback used for LNG
+DEBUG: ticker=LNG missing=rev_growth,ni_growth
+FH PT HALO status=None
+FH REC HALO status=None
+FH ER HALO status=None
+FMP HALO skipped: no API key
+YF PT fallback used for HALO
+DEBUG: ticker=HALO missing=rev_growth,ni_growth
+FH PT CTRA status=None
+FH REC CTRA status=None
+FH ER CTRA status=None
+FMP CTRA skipped: no API key
+YF PT fallback used for CTRA
+DEBUG: ticker=CTRA missing=rev_growth,ni_growth
+FH PT LLY status=None
+FH REC LLY status=None
+FH ER LLY status=None
+FMP LLY skipped: no API key
+YF PT fallback used for LLY
+DEBUG: ticker=LLY missing=rev_growth,ni_growth
+=== Missing summary (rows=44) ===
+revisions_score: 44 missing (100.0%)
+rec_mom_score: 44 missing (100.0%)
+rev_beat_rate: 42 missing (95.5%)
+eps_surprise_avg: 42 missing (95.5%)
+growth_netincome_score: 36 missing (81.8%)
+rec_level_score: 36 missing (81.8%)
+rec_index: 36 missing (81.8%)
+est_ni_nextFY: 36 missing (81.8%)
+rev_lastFY: 36 missing (81.8%)
+pt_rev_90d_bps: 36 missing (81.8%)
+growth_revenue_score: 36 missing (81.8%)
+rev_g1y_pct: 36 missing (81.8%)
+ni_g1y_pct: 36 missing (81.8%)
+rev_g1y_pct_w: 36 missing (81.8%)
+ni_g1y_pct_w: 36 missing (81.8%)
