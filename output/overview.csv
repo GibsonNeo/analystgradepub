@@ -1,0 +1,7 @@
+ticker,sector,final_grade,growth_score,pt_upside_pct_score,revisions_score,surprise_score,coverage_score,dispersion_score,rev_g1y_pct_score,eps_g1y_pct_score,last_close,prev_close,est_rev_nextFY,rev_lastFY,est_eps_nextFY,eps_lastFY,pt_median,pt_mean,pt_high,pt_low,pt_analystCount,eps_rev_90d_bps,pt_rev_90d_bps,eps_surprise_avg,rev_beat_rate,est_age_days,est_decay_mult,pt_age_days,pt_decay_mult,asof,rev_g1y_pct,eps_g1y_pct,pt_upside_pct,dispersion_pct,rev_g1y_pct_w,eps_g1y_pct_w,pt_upside_pct_w,dispersion_w,eps_rev_score,pt_rev_score,eps_surprise_score,rev_beat_score,raw_weighted
+MSFT,Information Technology,,,,,,0.0,,,,507.2799987792969,509.0400085449219,,,,,,,,,,,,,,,0.0,,0.0,2025-09-17T15:49:36Z,,,,,,,,,,,,,
+AAPL,Information Technology,,,,,,0.0,,,,239.51499938964844,238.14999389648438,,,,,,,,,,,,,,,0.0,,0.0,2025-09-17T15:49:37Z,,,,,,,,,,,,,
+AMZN,Consumer Discretionary,,,,,,0.0,,,,231.0500030517578,234.0500030517578,,,,,,,,,,,,,,,0.0,,0.0,2025-09-17T15:49:39Z,,,,,,,,,,,,,
+NVDA,Information Technology,,,,,50.0,0.0,,,,169.85499572753906,177.75,,,,,,,,,,,,2.130142982200178,0.0,,0.0,,0.0,2025-09-17T15:49:40Z,,,,,,,,,,,50.0,50.0,
+JNJ,Health Care,,,,,,0.0,,,,177.22000122070312,178.05999755859375,,,,,,,,,,,,,,,0.0,,0.0,2025-09-17T15:49:41Z,,,,,,,,,,,,,
+XOM,Energy,,,,,,0.0,,,,114.75,112.16000366210938,,,,,,,,,,,,,,,0.0,,0.0,2025-09-17T15:49:42Z,,,,,,,,,,,,,
