@@ -321,6 +321,96 @@ def derive_revisions_from_history(hist: List[dict], days_window: int) -> Optiona
     except Exception:
         return None
 
+def extract_estimates2(fh_cache: dict, fmp_cache: dict) -> tuple[float|None,float|None,float|None,float|None]:
+    """
+    Return: (est_rev_nextFY, rev_lastFY, est_eps_nextFY, eps_lastFY)
+    Tries Finnhub first, falls back to FMP if needed. Heuristic parsing across common shapes.
+    """
+    def _dig(raw):
+        rows = []
+        if isinstance(raw, dict):
+            rows = raw.get("data") or raw.get("estimates") or raw.get("result") or []
+        elif isinstance(raw, list):
+            rows = raw
+        return rows
+
+    def _fy(s: str) -> int|None:
+        if not s: return None
+        digits = "".join(ch for ch in str(s) if ch.isdigit())
+        return int(digits) if len(digits) == 4 else None
+
+    # ---- revenue ----
+    rev_next = rev_last = None
+    for source in ("rev_estimates",):
+        raw = fh_cache.get(source, {}).get("raw")
+        rows = _dig(raw)
+        if rows:
+            tmp = {}
+            for r in rows:
+                yr = _fy(r.get("period") or r.get("fiscalYear"))
+                val = r.get("estimate") or r.get("revenueAvg") or r.get("revenueEstimate")
+                if yr and val is not None:
+                    tmp[yr] = float(val)
+            if tmp:
+                years = sorted(tmp)
+                if len(years) >= 2:
+                    rev_last = tmp.get(years[-2])
+                    rev_next = tmp.get(years[-1])
+                    break
+
+    if rev_next is None or rev_last is None:
+        # FMP fallback (analyst_estimates payload can include revenue by year)
+        raw = fmp_cache.get("analyst_estimates", {}).get("raw")
+        rows = _dig(raw)
+        tmp_r = {}
+        for r in rows:
+            yr = _fy(r.get("year") or r.get("fiscalYear") or r.get("period"))
+            val = r.get("revenueAvg") or r.get("estimatedRevenueAvg") or r.get("revenueEstimate")
+            if yr and val is not None:
+                tmp_r[yr] = float(val)
+        if tmp_r:
+            years = sorted(tmp_r)
+            if len(years) >= 2:
+                rev_last = rev_last or tmp_r.get(years[-2])
+                rev_next = rev_next or tmp_r.get(years[-1])
+
+    # ---- EPS ----
+    eps_next = eps_last = None
+    for source in ("eps_estimates",):
+        raw = fh_cache.get(source, {}).get("raw")
+        rows = _dig(raw)
+        if rows:
+            tmp = {}
+            for r in rows:
+                yr = _fy(r.get("period") or r.get("fiscalYear"))
+                val = r.get("estimate") or r.get("epsAvg") or r.get("estimatedEpsAvg") or r.get("epsEstimate")
+                if yr and val is not None:
+                    tmp[yr] = float(val)
+            if tmp:
+                years = sorted(tmp)
+                if len(years) >= 2:
+                    eps_last = tmp.get(years[-2])
+                    eps_next = tmp.get(years[-1])
+                    break
+
+    if eps_next is None or eps_last is None:
+        raw = fmp_cache.get("analyst_estimates", {}).get("raw")
+        rows = _dig(raw)
+        tmp_e = {}
+        for r in rows:
+            yr = _fy(r.get("year") or r.get("fiscalYear") or r.get("period"))
+            val = r.get("epsAvg") or r.get("estimatedEpsAvg") or r.get("epsEstimate")
+            if yr and val is not None:
+                tmp_e[yr] = float(val)
+        if tmp_e:
+            years = sorted(tmp_e)
+            if len(years) >= 2:
+                eps_last = eps_last or tmp_e.get(years[-2])
+                eps_next = eps_next or tmp_e.get(years[-1])
+
+    return rev_next, rev_last, eps_next, eps_last
+
+
 def main():
     cfg = load_config()
     ensure_dirs(cfg)
@@ -374,7 +464,7 @@ def main():
         prev_close = yf_cache.get("prev_close") if yf_cache else None
 
         # Estimates (very heuristic parsing; vendor diversity)
-        est_rev_nextFY, rev_lastFY, est_eps_nextFY, eps_lastFY = extract_estimates(fh_cache)
+        est_rev_nextFY, rev_lastFY, est_eps_nextFY, eps_lastFY = extract_estimates2(fh_cache, fmp_cache)
 
         # Revisions: use cached history of EPS nextFY and PT median over time (self-maintained)
         # We append today's snapshot and compute ~90d deltas later.
