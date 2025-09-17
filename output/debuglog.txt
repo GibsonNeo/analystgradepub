@@ -127,3 +127,51 @@ dispersion_score: 0 missing (0.0%)
 surprises_score: 0 missing (0.0%)
 upside_score: 0 missing (0.0%)
 rec_level_score: 0 missing (0.0%)
+APIKEY Finnhub set=True
+APIKEY FMP set=True
+FH PT MSFT status=403
+FH REC MSFT status=200
+FH ER MSFT status=200
+SCHEMA[finnhub] MSFT: ['_history', 'asof', 'earnings', 'recommendations']
+SCHEMA[fmp] MSFT: ['analyst_estimates_stable', 'asof']
+YF PT fallback used for MSFT
+FH PT AAPL status=403
+FH REC AAPL status=200
+FH ER AAPL status=200
+SCHEMA[finnhub] AAPL: ['_history', 'asof', 'earnings', 'recommendations']
+SCHEMA[fmp] AAPL: ['analyst_estimates_stable', 'asof']
+YF PT fallback used for AAPL
+FH PT AMZN status=403
+FH REC AMZN status=200
+FH ER AMZN status=200
+SCHEMA[finnhub] AMZN: ['_history', 'asof', 'earnings', 'recommendations']
+SCHEMA[fmp] AMZN: ['analyst_estimates_stable', 'asof']
+YF PT fallback used for AMZN
+FH PT NVDA status=403
+FH REC NVDA status=200
+FH ER NVDA status=200
+YF PT fallback used for NVDA
+FH PT JNJ status=403
+FH REC JNJ status=200
+FH ER JNJ status=200
+YF PT fallback used for JNJ
+FH PT XOM status=403
+FH REC XOM status=200
+FH ER XOM status=200
+YF PT fallback used for XOM
+=== Missing summary (rows=6) ===
+revisions_score: 6 missing (100.0%)
+rec_mom_score: 6 missing (100.0%)
+rev_beat_rate: 5 missing (83.3%)
+eps_surprise_avg: 5 missing (83.3%)
+sector: 0 missing (0.0%)
+final_grade: 0 missing (0.0%)
+growth_netincome_score: 0 missing (0.0%)
+rec_level_score: 0 missing (0.0%)
+upside_score: 0 missing (0.0%)
+growth_revenue_score: 0 missing (0.0%)
+ticker: 0 missing (0.0%)
+dispersion_score: 0 missing (0.0%)
+surprises_score: 0 missing (0.0%)
+coverage_score: 0 missing (0.0%)
+raw_weighted: 0 missing (0.0%)

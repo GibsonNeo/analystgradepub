@@ -1,7 +1,7 @@
 ticker,has_pt,has_rev,has_ni,has_quote,rec_index,pt_age_days
-MSFT,True,True,True,True,64.28571428571429,
-AAPL,True,True,True,True,43.63636363636363,
-AMZN,True,True,True,True,62.0253164556962,
-NVDA,True,True,True,True,59.285714285714285,
-JNJ,True,True,True,True,33.87096774193548,
-XOM,True,True,True,True,40.0,
+MSFT,True,True,True,True,64.28571428571429,0
+AAPL,True,True,True,True,43.63636363636363,0
+AMZN,True,True,True,True,62.0253164556962,0
+NVDA,True,True,True,True,59.285714285714285,0
+JNJ,True,True,True,True,33.87096774193548,0
+XOM,True,True,True,True,40.0,0

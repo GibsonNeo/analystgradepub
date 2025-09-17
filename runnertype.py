@@ -245,7 +245,7 @@ def extract_growth_from_fmp_stable(fmp_cache: dict) -> Tuple[Optional[float],Opt
         ni_next  = next_r.get("netIncomeAvg")
         ni_last  = last_r.get("netIncomeAvg")
 
-        def _f(x): 
+        def _f(x):
             try: return float(x)
             except Exception: return None
 
@@ -302,13 +302,23 @@ def main():
 
         # ----- PRICE TARGETS (prefer vendors; fallback to yfinance) -----
         pt = (fh_cache.get("price_targets") or {})
-        pt_median = pt.get("median"); pt_mean = pt.get("mean")
-        pt_high = pt.get("high"); pt_low = pt.get("low"); pt_n = pt.get("analystCount")
+        pt_median = pt.get("median")
+        pt_mean   = pt.get("mean")
+        pt_high   = pt.get("high")
+        pt_low    = pt.get("low")
+        pt_n      = pt.get("analystCount")
+        pt_asof   = pt.get("asof")   # may be None
+
         if pt_median is None:
             ypt = yfinance_targets(symbol)
             if ypt:
-                pt_median = ypt.get("median"); pt_mean = ypt.get("mean")
-                pt_high = ypt.get("high"); pt_low = ypt.get("low"); pt_n = ypt.get("analystCount")
+                # take all fields from Yahoo fallback
+                pt_median = ypt.get("median")
+                pt_mean   = ypt.get("mean")
+                pt_high   = ypt.get("high")
+                pt_low    = ypt.get("low")
+                pt_n      = ypt.get("analystCount")
+                pt_asof   = ypt.get("asof")  # capture asof for age calc
                 write_debug(cfg, [f"YF PT fallback used for {symbol}"])
 
         # ----- QUOTES -----
@@ -318,8 +328,7 @@ def main():
         # ----- FORWARD GROWTH from FMP stable (single call) -----
         est_rev_nextFY, rev_lastFY, est_ni_nextFY, ni_lastFY = extract_growth_from_fmp_stable(fmp_cache)
 
-        # ----- REVISIONS (we still maintain EPS/PT history for momentum where available) -----
-        # PT history (median)
+        # ----- REVISIONS (we still maintain PT history for momentum where available) -----
         if pt_median is not None:
             append_history(fh_cache, "pt_median", float(pt_median), now_utc_str())
             save_vendor_cache(cfg["paths"]["cache_dir"], "finnhub", symbol, fh_cache)
@@ -356,7 +365,11 @@ def main():
 
         # ----- Freshness multipliers (audit only) -----
         est_age = days_ago((fmp_cache.get("analyst_estimates_stable") or {}).get("asof"))
-        pt_age = days_ago((fh_cache.get("price_targets") or {}).get("asof"))
+
+        # prefer the asof from whichever PT source actually populated the data
+        pt_asof_cache = (fh_cache.get("price_targets") or {}).get("asof")
+        pt_age = days_ago(pt_asof or pt_asof_cache)
+
         est_mul = linear_decay_weight(est_age, cfg["freshness"]["estimates_full_days"], cfg["freshness"]["estimates_zero_days"])
         pt_mul  = linear_decay_weight(pt_age,  cfg["freshness"]["pt_full_days"],        cfg["freshness"]["pt_zero_days"])
 
