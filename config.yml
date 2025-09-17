@@ -1,17 +1,22 @@
-# Grader configuration (no CLI flags needed). Adjust and rerun.
 weights:
-  growth_total: 30
+  # Forward growth total = 30
   growth_revenue: 20
-  growth_eps: 10
-  upside: 25
-  revisions: 20
-  surprises: 15
-  coverage: 3
-  dispersion: 7
+  growth_netincome: 10
+
+  upside: 20
+
+  # Recommendations total = 20
+  recs_level: 10
+  recs_momentum: 10
+
+  revisions: 15
+  surprises: 10
+  dispersion: 3
+  coverage: 2
 
 gates:
-  cap_eps_le_zero: 60           # max final grade when next-FY EPS <= 0
-  cap_eps_le_zero_lowrev: 50    # when EPS<=0 and rev_growth<10%
+  cap_eps_le_zero: 60     # legacy keys ok to keep
+  cap_eps_le_zero_lowrev: 50
   rev_growth_low_threshold_pct: 10
 
 freshness:
@@ -25,7 +30,7 @@ freshness:
 normalization:
   winsorize_p_low: 5
   winsorize_p_high: 95
-  sector_blend: 0.30          # sector fairness blend for biased metrics
+  sector_blend: 0.30
 
 vendors:
   use_finnhub: true
@@ -33,15 +38,15 @@ vendors:
   use_fmp: true
 
 progress:
-  every: 100                   # print every N tickers
+  every: 100
 
 fmp_harvest:
   daily_quota: 250
-  ttl_days: 10                 # refresh FMP data older than this
+  ttl_days: 10
   ring_buffer: true
   disagreement_threshold_pct: 15
   merge_trimmed_mean: true
-  failure_backoff_days: 30     # if FMP returns not found/error, pause this ticker for N days
+  failure_backoff_days: 30
 
 paths:
   output_dir: output

@@ -5,7 +5,7 @@ from typing import Optional, Dict, Any
 from datetime import datetime
 import yfinance as yf
 
-USER_AGENT = "AnalystGrader/1.0 (free research; contact: local user)"
+USER_AGENT = "AnalystGrader/1.1 (free research; contact: local user)"
 
 class FinnhubClient:
     def __init__(self, api_key: Optional[str] = None, throttle_s: float = 0.0):
@@ -35,7 +35,6 @@ class FinnhubClient:
         return self._get("/stock/recommendation", {"symbol": symbol})
 
     def earnings_surprises(self, symbol: str):
-        # /calendar/earnings?symbol= includes surprises
         return self._get("/calendar/earnings", {"symbol": symbol})
 
     def eps_estimates(self, symbol: str):
@@ -44,11 +43,11 @@ class FinnhubClient:
     def revenue_estimates(self, symbol: str):
         return self._get("/stock/revenue-estimate", {"symbol": symbol})
 
+
 class FMPClient:
     def __init__(self, api_key: Optional[str] = None, throttle_s: float = 0.0):
         self.api_key = api_key or os.getenv("FMP_API_KEY", "")
-        self.base = "https://financialmodelingprep.com/api/v4"
-        self.v3 = "https://financialmodelingprep.com/api/v3"
+        self.base = "https://financialmodelingprep.com"
         self.throttle_s = throttle_s
 
     def _get(self, url: str, params: Dict[str, Any]):
@@ -65,11 +64,11 @@ class FMPClient:
         except Exception:
             return None, None
 
-    def price_target_consensus(self, symbol: str):
-        return self._get(f"{self.base}/price-target-consensus", {"symbol": symbol})
+    # SINGLE stable endpoint we will use for forward growth (revenue & net income)
+    def analyst_estimates_stable(self, symbol: str):
+        return self._get(f"{self.base}/stable/analyst-estimates",
+                         {"symbol": symbol, "period": "annual", "limit": 10})
 
-    def analyst_estimates(self, symbol: str):
-        return self._get(f"{self.v3}/analyst-estimates/{symbol}", {})
 
 def yfinance_last_and_prev_close(symbol: str) -> Optional[Dict[str, Any]]:
     try:
@@ -83,6 +82,24 @@ def yfinance_last_and_prev_close(symbol: str) -> Optional[Dict[str, Any]]:
             return None
         last_close = float(closes.iloc[-1])
         prev_close = float(closes.iloc[-2]) if closes.shape[0] >= 2 else None
-        return {"last_close": last_close, "prev_close": prev_close, "asof": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")}
+        return {"last_close": last_close, "prev_close": prev_close,
+                "asof": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")}
+    except Exception:
+        return None
+
+
+def yfinance_targets(symbol: str) -> Optional[Dict[str, Any]]:
+    """Price target & coverage fallback via Yahoo."""
+    try:
+        t = yf.Ticker(symbol.replace('.', '-'))
+        info = t.info or {}
+        return {
+            "median": info.get("targetMedianPrice") or info.get("targetMeanPrice"),
+            "mean": info.get("targetMeanPrice"),
+            "high": info.get("targetHighPrice"),
+            "low": info.get("targetLowPrice"),
+            "analystCount": info.get("numberOfAnalystOpinions"),
+            "asof": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+        }
     except Exception:
         return None

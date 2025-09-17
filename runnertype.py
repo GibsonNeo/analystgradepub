@@ -1,21 +1,21 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import os, sys, time, json
+import os, json
 from typing import Dict, Any, List, Optional, Tuple
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 import pandas as pd
 import numpy as np
 import yaml
 
 from utils import now_utc_str, days_ago, linear_decay_weight
-from vendors import FinnhubClient, FMPClient, yfinance_last_and_prev_close
+from vendors import FinnhubClient, FMPClient, yfinance_last_and_prev_close, yfinance_targets
 from data_cache import (
     load_vendor_cache, save_vendor_cache, append_history, get_history_series,
     mark_vendor_failure, is_vendor_failed, clear_vendor_failure,
     load_fmp_state, save_fmp_state
 )
 from scoring import compute_component_columns, apply_weights_and_gates, order_columns
-from merge_utils import merge_targets
+from merge_utils import merge_targets  # still used if you keep it; harmless either way
 
 def log(msg: str):
     ts = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
@@ -56,7 +56,6 @@ def summarize_missing(df: pd.DataFrame, cfg: dict):
 
 SCHEMA_PEEKS = {"finnhub": 0, "fmp": 0}
 SCHEMA_PEEK_LIMIT = 3
-
 def peek_schema(cfg, vendor_name: str, symbol: str, payload: dict):
     try:
         if not cfg.get("debug", {}).get("enabled", False):
@@ -89,11 +88,9 @@ def ensure_dirs(cfg: Dict[str, Any]):
 
 def _fmp_cache_usable(cache: dict) -> bool:
     if not cache: return False
-    pt = cache.get("price_targets") or {}
-    est = cache.get("analyst_estimates") or {}
-    has_pt = pt.get("median") is not None or any(v is not None for v in [pt.get("high"), pt.get("low"), pt.get("mean")])
+    est = cache.get("analyst_estimates_stable") or {}
     has_est = bool(est.get("raw"))
-    return has_pt or has_est
+    return has_est
 
 def select_fmp_batch(tickers: List[str], cfg: Dict[str, Any]) -> List[str]:
     quota = int(cfg["fmp_harvest"]["daily_quota"])
@@ -120,14 +117,13 @@ def select_fmp_batch(tickers: List[str], cfg: Dict[str, Any]) -> List[str]:
     state["last_index"] = i
     state["last_run"] = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
     save_fmp_state(cfg["paths"]["state_dir"], state)
-
     return selected
 
 def fetch_finnhub_for_ticker(fh: FinnhubClient, ticker: str, cfg: Dict[str, Any], cache_dir: str) -> Dict[str, Any]:
     cache = load_vendor_cache(cache_dir, "finnhub", ticker)
     asof = now_utc_str()
 
-    pt, st_pt = fh.price_targets(ticker)
+    pt, st_pt = fh.price_targets(ticker)  # may be 403 on your plan; harmless
     write_debug(cfg, [f'FH PT {ticker} status={st_pt}'])
     if pt:
         cache["price_targets"] = {
@@ -141,14 +137,22 @@ def fetch_finnhub_for_ticker(fh: FinnhubClient, ticker: str, cfg: Dict[str, Any]
 
     recs, st_rec = fh.recommendation_trends(ticker)
     write_debug(cfg, [f'FH REC {ticker} status={st_rec}'])
-    if recs:
-        rec0 = recs[0] if isinstance(recs, list) and recs else {}
+    if recs and isinstance(recs, list):
+        rec0 = recs[0]
         cache["recommendations"] = {
+            "strongBuy": rec0.get("strongBuy"),
             "buy": rec0.get("buy"),
             "hold": rec0.get("hold"),
             "sell": rec0.get("sell"),
+            "strongSell": rec0.get("strongSell"),
             "asof": asof,
         }
+        # compute rec_index ~ [-100, +100] and store daily history (for 90d momentum)
+        sb, b = rec0.get("strongBuy") or 0, rec0.get("buy") or 0
+        h, s, ss = rec0.get("hold") or 0, rec0.get("sell") or 0, rec0.get("strongSell") or 0
+        tot = max((sb + b + h + s + ss), 1)
+        rec_index = 100.0 * ((2*sb + b) - (s + 2*ss)) / (2.0 * tot)
+        append_history(cache, "rec_index", rec_index, asof)
 
     er, st_er = fh.earnings_surprises(ticker)
     write_debug(cfg, [f'FH ER {ticker} status={st_er}'])
@@ -172,14 +176,6 @@ def fetch_finnhub_for_ticker(fh: FinnhubClient, ticker: str, cfg: Dict[str, Any]
         rev_beat_rate = float(np.mean(rev_beats[-4:])) if rev_beats else None
         cache["earnings"] = {"eps_surprise_avg": avg_surprise, "rev_beat_rate": rev_beat_rate, "asof": asof}
 
-    eps, st_eps = fh.eps_estimates(ticker)
-    rev, st_rev = fh.revenue_estimates(ticker)
-    write_debug(cfg, [f'FH EPS {ticker} status={st_eps}', f'FH REV {ticker} status={st_rev}'])
-    if eps:
-        cache["eps_estimates"] = {"raw": eps, "asof": asof}
-    if rev:
-        cache["rev_estimates"] = {"raw": rev, "asof": asof}
-
     cache["asof"] = asof
     save_vendor_cache(cache_dir, "finnhub", ticker, cache)
     return cache
@@ -192,113 +188,70 @@ def fetch_fmp_for_ticker(fmp: FMPClient, ticker: str, cfg: Dict[str, Any], cache
         return None
     asof = now_utc_str()
     cache = load_vendor_cache(cache_dir, "fmp", ticker) or {}
-    has_any = False
     try:
-        pt, st_pt = fmp.price_target_consensus(ticker)
-        est, st_est = fmp.analyst_estimates(ticker)
-        write_debug(cfg, [f'FMP PT {ticker} status={st_pt}', f'FMP EST {ticker} status={st_est}'])
-        if pt:
-            row = pt[0] if isinstance(pt, list) and pt else pt if isinstance(pt, dict) else {}
-            median = row.get("median") or row.get("priceTargetMedian")
-            high = row.get("high") or row.get("priceTargetHigh")
-            low = row.get("low") or row.get("priceTargetLow")
-            mean = row.get("mean") or row.get("priceTargetAverage")
-            n = row.get("analystCount") or row.get("numberAnalystOpinions")
-            cache["price_targets"] = {"median": median, "mean": mean, "high": high, "low": low, "analystCount": n, "asof": asof}
-            has_any = True
+        est, st_est = fmp.analyst_estimates_stable(ticker)
+        write_debug(cfg, [f'FMP stable estimates {ticker} status={st_est}'])
         if est:
-            cache["analyst_estimates"] = {"raw": est, "asof": asof}
-            has_any = True
-
-        if has_any:
+            cache["analyst_estimates_stable"] = {"raw": est, "asof": asof}
             cache["asof"] = asof
             save_vendor_cache(cache_dir, "fmp", ticker, cache)
             clear_vendor_failure(state_dir, "fmp", ticker)
             return cache
         else:
-            write_debug(cfg, [f'FMP {ticker} no data returned'])
+            write_debug(cfg, [f'FMP {ticker} stable estimates returned empty'])
             return None
     except Exception as e:
-        mark_vendor_failure(state_dir, "fmp", ticker, reason=str(e), backoff_days=int(cfg["fmp_harvest"]["failure_backoff_days"]))
+        mark_vendor_failure(state_dir, "fmp", ticker, reason=str(e),
+                            backoff_days=int(cfg["fmp_harvest"]["failure_backoff_days"]))
         return None
 
-def extract_estimates2(fh_cache: dict, fmp_cache: dict):
-    def _dig(raw):
+def extract_growth_from_fmp_stable(fmp_cache: dict) -> Tuple[Optional[float],Optional[float],Optional[float],Optional[float]]:
+    """
+    From FMP stable analyst-estimates (annual), derive:
+      (est_rev_nextFY, rev_lastFY, est_netinc_nextFY, netinc_lastFY)
+    Minimal calls, use previous row as "last" when next is future-dated.
+    """
+    try:
+        raw = (fmp_cache or {}).get("analyst_estimates_stable", {}).get("raw") or []
         rows = []
-        if isinstance(raw, dict):
-            rows = raw.get("data") or raw.get("estimates") or raw.get("result") or []
-        elif isinstance(raw, list):
-            rows = raw
-        return rows
-    def _fy(val):
-        if not val: return None
-        s = str(val)
-        digits = "".join(ch for ch in s if ch.isdigit())
-        return int(digits) if len(digits) == 4 else None
+        for r in raw:
+            d = r.get("date")
+            if not d: continue
+            try:
+                dt = date.fromisoformat(str(d)[:10])
+            except Exception:
+                continue
+            rows.append((dt, r))
+        if not rows:
+            return None, None, None, None
+        rows.sort(key=lambda x: x[0])
 
-    rev_next = rev_last = None
-    eps_next = eps_last = None
+        today = date.today()
+        next_idx = None
+        for i,(dt,_) in enumerate(rows):
+            if dt >= today:
+                next_idx = i
+                break
+        if next_idx is None:
+            # all past: use last two as last/next proxies
+            last_dt, last_r = rows[-2] if len(rows) >= 2 else rows[-1]
+            next_dt, next_r = rows[-1]
+        else:
+            next_dt, next_r = rows[next_idx]
+            last_dt, last_r = rows[next_idx-1] if next_idx > 0 else rows[next_idx]
 
-    # Finnhub revenue
-    raw = fh_cache.get("rev_estimates", {}).get("raw")
-    rows = _dig(raw)
-    tmp = {}
-    for r in rows:
-        yr = _fy(r.get("period") or r.get("fiscalYear") or r.get("year"))
-        val = r.get("estimate") or r.get("revenueAvg") or r.get("revenueEstimate")
-        if yr and val is not None:
-            tmp[yr] = float(val)
-    if tmp:
-        years = sorted(tmp)
-        if len(years) >= 2:
-            rev_last = tmp.get(years[-2]); rev_next = tmp.get(years[-1])
+        rev_next = next_r.get("revenueAvg")
+        rev_last = last_r.get("revenueAvg")
+        ni_next  = next_r.get("netIncomeAvg")
+        ni_last  = last_r.get("netIncomeAvg")
 
-    # Finnhub EPS
-    raw = fh_cache.get("eps_estimates", {}).get("raw")
-    rows = _dig(raw)
-    tmp = {}
-    for r in rows:
-        yr = _fy(r.get("period") or r.get("fiscalYear") or r.get("year"))
-        val = r.get("estimate") or r.get("epsAvg") or r.get("estimatedEpsAvg") or r.get("epsEstimate")
-        if yr and val is not None:
-            tmp[yr] = float(val)
-    if tmp:
-        years = sorted(tmp)
-        if len(years) >= 2:
-            eps_last = tmp.get(years[-2]); eps_next = tmp.get(years[-1])
+        def _f(x): 
+            try: return float(x)
+            except Exception: return None
 
-    # Fallbacks from FMP
-    if rev_next is None or rev_last is None:
-        raw = fmp_cache.get("analyst_estimates", {}).get("raw")
-        rows = _dig(raw)
-        tmp = {}
-        for r in rows:
-            yr = _fy(r.get("year") or r.get("fiscalYear") or r.get("period"))
-            val = r.get("revenueAvg") or r.get("estimatedRevenueAvg") or r.get("revenueEstimate")
-            if yr and val is not None:
-                tmp[yr] = float(val)
-        if tmp:
-            years = sorted(tmp)
-            if len(years) >= 2:
-                rev_last = rev_last or tmp.get(years[-2])
-                rev_next = rev_next or tmp.get(years[-1])
-
-    if eps_next is None or eps_last is None:
-        raw = fmp_cache.get("analyst_estimates", {}).get("raw")
-        rows = _dig(raw)
-        tmp = {}
-        for r in rows:
-            yr = _fy(r.get("year") or r.get("fiscalYear") or r.get("period"))
-            val = r.get("epsAvg") or r.get("estimatedEpsAvg") or r.get("epsEstimate")
-            if yr and val is not None:
-                tmp[yr] = float(val)
-        if tmp:
-            years = sorted(tmp)
-            if len(years) >= 2:
-                eps_last = eps_last or tmp.get(years[-2])
-                eps_next = eps_next or tmp.get(years[-1])
-
-    return rev_next, rev_last, eps_next, eps_last
+        return _f(rev_next), _f(rev_last), _f(ni_next), _f(ni_last)
+    except Exception:
+        return None, None, None, None
 
 def main():
     cfg = load_config()
@@ -307,7 +260,6 @@ def main():
     symbols = tick["ticker"].tolist()
     log(f"Loaded {len(symbols)} tickers.")
 
-    # API key presence
     fh_key = bool(os.getenv('FINNHUB_API_KEY'))
     fmp_key = bool(os.getenv('FMP_API_KEY'))
     write_debug(cfg, [f'APIKEY Finnhub set={fh_key}', f'APIKEY FMP set={fmp_key}'])
@@ -335,52 +287,53 @@ def main():
         if use_yf:
             q = yfinance_last_and_prev_close(symbol)
             if q:
-                save_vendor_cache(cfg["paths"]["cache_dir"], "yf", symbol, {"last_close": q["last_close"], "prev_close": q["prev_close"], "asof": now_utc_str()})
+                save_vendor_cache(cfg["paths"]["cache_dir"], "yf", symbol,
+                                  {"last_close": q["last_close"], "prev_close": q["prev_close"], "asof": now_utc_str()})
         if use_fmp and symbol in fmp_batch:
             fetch_fmp_for_ticker(fmp, symbol, cfg, cfg["paths"]["cache_dir"], cfg["paths"]["state_dir"])
 
         fh_cache = load_vendor_cache(cfg["paths"]["cache_dir"], "finnhub", symbol)
         fmp_cache = load_vendor_cache(cfg["paths"]["cache_dir"], "fmp", symbol)
         yf_cache  = load_vendor_cache(cfg["paths"]["cache_dir"], "yf", symbol)
+
         peek_schema(cfg, 'finnhub', symbol, fh_cache)
         if fmp_cache:
             peek_schema(cfg, 'fmp', symbol, fmp_cache)
 
-        target_fields = merge_targets(fh_cache, fmp_cache, cfg)
-        pt_median = target_fields.get("pt_median")
-        pt_mean = target_fields.get("pt_mean")
-        pt_high = target_fields.get("pt_high")
-        pt_low = target_fields.get("pt_low")
-        pt_n = target_fields.get("pt_analystCount")
+        # ----- PRICE TARGETS (prefer vendors; fallback to yfinance) -----
+        pt = (fh_cache.get("price_targets") or {})
+        pt_median = pt.get("median"); pt_mean = pt.get("mean")
+        pt_high = pt.get("high"); pt_low = pt.get("low"); pt_n = pt.get("analystCount")
+        if pt_median is None:
+            ypt = yfinance_targets(symbol)
+            if ypt:
+                pt_median = ypt.get("median"); pt_mean = ypt.get("mean")
+                pt_high = ypt.get("high"); pt_low = ypt.get("low"); pt_n = ypt.get("analystCount")
+                write_debug(cfg, [f"YF PT fallback used for {symbol}"])
 
+        # ----- QUOTES -----
         last_close = yf_cache.get("last_close") if yf_cache else None
         prev_close = yf_cache.get("prev_close") if yf_cache else None
 
-        est_rev_nextFY, rev_lastFY, est_eps_nextFY, eps_lastFY = extract_estimates2(fh_cache, fmp_cache)
+        # ----- FORWARD GROWTH from FMP stable (single call) -----
+        est_rev_nextFY, rev_lastFY, est_ni_nextFY, ni_lastFY = extract_growth_from_fmp_stable(fmp_cache)
 
-        if est_eps_nextFY is not None:
-            append_history(fh_cache, "est_eps_nextFY", est_eps_nextFY, now_utc_str())
-            save_vendor_cache(cfg["paths"]["cache_dir"], "finnhub", symbol, fh_cache)
+        # ----- REVISIONS (we still maintain EPS/PT history for momentum where available) -----
+        # PT history (median)
         if pt_median is not None:
-            append_history(fh_cache, "pt_median", pt_median, now_utc_str())
+            append_history(fh_cache, "pt_median", float(pt_median), now_utc_str())
             save_vendor_cache(cfg["paths"]["cache_dir"], "finnhub", symbol, fh_cache)
 
-        eps_hist = get_history_series(fh_cache, "est_eps_nextFY")
         pt_hist  = get_history_series(fh_cache, "pt_median")
-
-        def derive_revisions_from_history(hist, days_window):
-            if not hist:
-                return None
+        def derive_rev_from_hist(hist, days_window):
+            if not hist: return None
             try:
-                from datetime import datetime
                 entries = [(datetime.strptime(h["ts"], "%Y-%m-%dT%H:%M:%SZ"), h["value"]) for h in hist if h.get("value") is not None]
-                if not entries:
-                    return None
-                entries = sorted(entries, key=lambda x: x[0])
+                entries.sort(key=lambda x: x[0])
                 target = entries[-1][0] - timedelta(days=days_window)
                 past = None; latest = entries[-1][1]
-                for dt, val in entries:
-                    if dt <= target:
+                for dt0, val in entries:
+                    if dt0 <= target:
                         past = val
                     else:
                         break
@@ -394,36 +347,38 @@ def main():
             except Exception:
                 return None
 
-        eps_rev_90d = derive_revisions_from_history(eps_hist, 90)
-        pt_rev_90d  = derive_revisions_from_history(pt_hist, 90)
+        pt_rev_90d  = derive_rev_from_hist(pt_hist, 90)
 
-        est_age = days_ago(fh_cache.get("rev_estimates", {}).get("asof") or fh_cache.get("eps_estimates", {}).get("asof"))
-        pt_age = days_ago((fh_cache.get("price_targets", {}) or {}).get("asof") or (fmp_cache.get("price_targets", {}) or {}).get("asof"))
+        # ----- RECOMMENDATION momentum -----
+        rec_hist = get_history_series(fh_cache, "rec_index")
+        rec_mom_90d = derive_rev_from_hist(rec_hist, 90)
+        rec_index_latest = rec_hist[-1]["value"] if rec_hist else None
 
+        # ----- Freshness multipliers (audit only) -----
+        est_age = days_ago((fmp_cache.get("analyst_estimates_stable") or {}).get("asof"))
+        pt_age = days_ago((fh_cache.get("price_targets") or {}).get("asof"))
         est_mul = linear_decay_weight(est_age, cfg["freshness"]["estimates_full_days"], cfg["freshness"]["estimates_zero_days"])
         pt_mul  = linear_decay_weight(pt_age,  cfg["freshness"]["pt_full_days"],        cfg["freshness"]["pt_zero_days"])
 
-        debug_lines = []
+        # ----- Debug missing -----
         missing = []
         if pt_median is None: missing.append("pt_median")
-        if est_rev_nextFY is None: missing.append("est_rev_nextFY")
-        if rev_lastFY is None: missing.append("rev_lastFY")
-        if est_eps_nextFY is None: missing.append("est_eps_nextFY")
-        if eps_lastFY is None: missing.append("eps_lastFY")
+        if est_rev_nextFY is None or rev_lastFY is None: missing.append("rev_growth")
+        if est_ni_nextFY is None or ni_lastFY is None: missing.append("ni_growth")
         if last_close is None: missing.append("last_close")
         if missing:
-            debug_lines.append(f"DEBUG: ticker={symbol} missing={','.join(missing)}")
-        write_debug(cfg, debug_lines)
+            write_debug(cfg, [f"DEBUG: ticker={symbol} missing={','.join(missing)}"])
 
         rows.append({
             "ticker": symbol, "sector": sector,
             "last_close": last_close, "prev_close": prev_close,
             "est_rev_nextFY": est_rev_nextFY, "rev_lastFY": rev_lastFY,
-            "est_eps_nextFY": est_eps_nextFY, "eps_lastFY": eps_lastFY,
+            "est_ni_nextFY": est_ni_nextFY, "ni_lastFY": ni_lastFY,
             "pt_median": pt_median, "pt_mean": pt_mean, "pt_high": pt_high, "pt_low": pt_low, "pt_analystCount": pt_n,
-            "eps_rev_90d_bps": eps_rev_90d, "pt_rev_90d_bps": pt_rev_90d,
-            "eps_surprise_avg": fh_cache.get("earnings", {}).get("eps_surprise_avg"),
-            "rev_beat_rate": fh_cache.get("earnings", {}).get("rev_beat_rate"),
+            "pt_rev_90d_bps": pt_rev_90d,
+            "rec_index": rec_index_latest, "rec_mom_90d_bps": rec_mom_90d,
+            "eps_surprise_avg": (fh_cache.get("earnings") or {}).get("eps_surprise_avg"),
+            "rev_beat_rate": (fh_cache.get("earnings") or {}).get("rev_beat_rate"),
             "est_age_days": est_age, "est_decay_mult": est_mul,
             "pt_age_days": pt_age, "pt_decay_mult": pt_mul,
             "asof": now_utc_str()
@@ -440,16 +395,16 @@ def main():
     out_path = os.path.join(cfg["paths"]["output_dir"], "analyst_grade.csv")
     df_final.to_csv(out_path, index=False)
 
-    # audit
+    # small audit
     audit_rows = []
     for r in rows:
         audit_rows.append({
             'ticker': r['ticker'],
             'has_pt': r.get('pt_median') is not None,
-            'has_est_rev': r.get('est_rev_nextFY') is not None,
-            'has_est_eps': r.get('est_eps_nextFY') is not None,
+            'has_rev': (r.get('est_rev_nextFY') is not None and r.get('rev_lastFY') is not None),
+            'has_ni': (r.get('est_ni_nextFY') is not None and r.get('ni_lastFY') is not None),
             'has_quote': r.get('last_close') is not None,
-            'est_age_days': r.get('est_age_days'),
+            'rec_index': r.get('rec_index'),
             'pt_age_days': r.get('pt_age_days')
         })
     pd.DataFrame(audit_rows).to_csv(os.path.join(cfg['paths']['output_dir'], 'audit_fetch.csv'), index=False)
