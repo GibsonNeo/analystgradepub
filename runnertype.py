@@ -17,6 +17,40 @@ from data_cache import (
 from scoring import compute_component_columns, apply_weights_and_gates, order_columns
 from merge_utils import merge_targets
 
+def write_debug(cfg, lines):
+    try:
+        if not cfg.get("debug", {}).get("enabled", False):
+            return
+        log_file = cfg.get("debug", {}).get("log_file", "output/debug_run.log")
+        os.makedirs(os.path.dirname(log_file), exist_ok=True)
+        with open(log_file, "a", encoding="utf-8") as f:
+            for ln in lines:
+                f.write(ln + "\n")
+    except Exception:
+        pass
+
+def summarize_missing(df: pd.DataFrame, cfg: dict):
+    try:
+        if not cfg.get("debug", {}).get("enabled", False):
+            return
+        mm = df.isna().sum().sort_values(ascending=False)
+        total = df.shape[0]
+        lines = []
+        lines.append(f"=== Missing summary (rows={total}) ===")
+        topn = int(cfg.get("debug", {}).get("top_missing_columns", 15))
+        for col, cnt in mm.head(topn).items():
+            pct = (cnt/total*100.0) if total else 0.0
+            lines.append(f"{col}: {cnt} missing ({pct:.1f}%)")
+        write_debug(cfg, lines)
+        if cfg.get("debug", {}).get("write_missing_summary_csv", True):
+            outcsv = cfg.get("debug", {}).get("missing_summary_csv", "output/missing_summary.csv")
+            pd.DataFrame({"column": mm.index, "missing": mm.values,
+                          "pct_missing": (mm.values/total*100.0) if total else np.zeros_like(mm.values)
+                         }).to_csv(outcsv, index=False)
+    except Exception:
+        pass
+
+
 def log(msg: str):
     ts = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
     print(f"[{ts}Z] {msg}", flush=True)
@@ -375,6 +409,20 @@ def main():
         eps_surprise_avg = fh_cache.get("earnings", {}).get("eps_surprise_avg")
         rev_beat_rate    = fh_cache.get("earnings", {}).get("rev_beat_rate")
 
+        
+        # Debug: capture missing fields to help troubleshoot vendor gaps
+        debug_lines = []
+        missing = []
+        if pt_median is None: missing.append("pt_median")
+        if est_rev_nextFY is None: missing.append("est_rev_nextFY")
+        if rev_lastFY is None: missing.append("rev_lastFY")
+        if est_eps_nextFY is None: missing.append("est_eps_nextFY")
+        if eps_lastFY is None: missing.append("eps_lastFY")
+        if last_close is None: missing.append("last_close")
+        if missing:
+            debug_lines.append(f"DEBUG: ticker={symbol} missing={','.join(missing)}")
+        write_debug(cfg, debug_lines)
+
         rows.append({
             "ticker": symbol, "sector": sector,
             # Quotes
@@ -405,7 +453,7 @@ def main():
     df_scored = apply_weights_and_gates(df_scored, cfg)
     df_final = order_columns(df_scored)
 
-    out_path = os.path.join(cfg["paths"]["output_dir"], "overview.csv")
+    out_path = os.path.join(cfg["paths"]["output_dir"], "analyst_grade.csv")
     df_final.to_csv(out_path, index=False)
     log(f"Wrote {out_path} with {df_final.shape[0]} rows.")
 

@@ -47,3 +47,10 @@ paths:
   output_dir: output
   cache_dir: cache
   state_dir: state
+
+debug:
+  enabled: true
+  log_file: output/debug_run.log
+  write_missing_summary_csv: true
+  missing_summary_csv: output/missing_summary.csv
+  top_missing_columns: 15
