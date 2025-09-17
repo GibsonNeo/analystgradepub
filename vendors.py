@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import os, time, requests, traceback
-from typing import Optional, Dict, Any, Tuple
+import os, time, requests
+from typing import Optional, Dict, Any
 from datetime import datetime
 import yfinance as yf
 
@@ -13,36 +13,35 @@ class FinnhubClient:
         self.base = "https://finnhub.io/api/v1"
         self.throttle_s = throttle_s
 
-    def _get(self, path: str, params: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    def _get(self, path: str, params: Dict[str, Any]):
         try:
             if not self.api_key:
-                return None
+                return None, None
             url = self.base + path
             headers = {"User-Agent": USER_AGENT}
             params = {**params, "token": self.api_key}
             r = requests.get(url, params=params, headers=headers, timeout=30)
             time.sleep(self.throttle_s)
             if r.status_code != 200:
-                return None
-            return r.json()
+                return None, r.status_code
+            return r.json(), r.status_code
         except Exception:
-            return None
+            return None, None
 
-    def price_targets(self, symbol: str) -> Optional[Dict[str, Any]]:
+    def price_targets(self, symbol: str):
         return self._get("/stock/price-target", {"symbol": symbol})
 
-    def recommendation_trends(self, symbol: str) -> Optional[Dict[str, Any]]:
+    def recommendation_trends(self, symbol: str):
         return self._get("/stock/recommendation", {"symbol": symbol})
 
-    def earnings_surprises(self, symbol: str) -> Optional[Dict[str, Any]]:
-        # Finnhub /calendar/earnings?symbol=; contains surprise
+    def earnings_surprises(self, symbol: str):
+        # /calendar/earnings?symbol= includes surprises
         return self._get("/calendar/earnings", {"symbol": symbol})
 
-    def eps_estimates(self, symbol: str) -> Optional[Dict[str, Any]]:
-        # EPS estimates: /stock/eps?symbol= (note: exact endpoint names may vary by plan)
+    def eps_estimates(self, symbol: str):
         return self._get("/stock/eps-estimate", {"symbol": symbol})
 
-    def revenue_estimates(self, symbol: str) -> Optional[Dict[str, Any]]:
+    def revenue_estimates(self, symbol: str):
         return self._get("/stock/revenue-estimate", {"symbol": symbol})
 
 class FMPClient:
@@ -52,32 +51,30 @@ class FMPClient:
         self.v3 = "https://financialmodelingprep.com/api/v3"
         self.throttle_s = throttle_s
 
-    def _get(self, url: str, params: Dict[str, Any]) -> Optional[Any]:
+    def _get(self, url: str, params: Dict[str, Any]):
         try:
             if not self.api_key:
-                return None
+                return None, None
             headers = {"User-Agent": USER_AGENT}
             params = {**params, "apikey": self.api_key}
             r = requests.get(url, params=params, headers=headers, timeout=30)
             time.sleep(self.throttle_s)
             if r.status_code != 200:
-                return None
-            return r.json()
+                return None, r.status_code
+            return r.json(), r.status_code
         except Exception:
-            return None
+            return None, None
 
-    def price_target_consensus(self, symbol: str) -> Optional[Any]:
-        # v4 price target consensus (structure depends on FMP; keep flexible)
+    def price_target_consensus(self, symbol: str):
         return self._get(f"{self.base}/price-target-consensus", {"symbol": symbol})
 
-    def analyst_estimates(self, symbol: str) -> Optional[Any]:
-        # v3/analyst-estimates?symbol=
+    def analyst_estimates(self, symbol: str):
         return self._get(f"{self.v3}/analyst-estimates/{symbol}", {})
 
 def yfinance_last_and_prev_close(symbol: str) -> Optional[Dict[str, Any]]:
     try:
-        t = yf.Ticker(symbol)
-        # Prefer history to derive last & previous close reliably
+        sym = symbol.replace('.', '-')
+        t = yf.Ticker(sym)
         hist = t.history(period="5d", auto_adjust=False)
         if hist is None or hist.empty:
             return None

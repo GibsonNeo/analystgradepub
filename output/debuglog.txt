@@ -1,0 +1,75 @@
+APIKEY Finnhub set=True
+APIKEY FMP set=True
+FH PT MSFT status=403
+FH REC MSFT status=200
+FH ER MSFT status=200
+FH EPS MSFT status=403
+FH REV MSFT status=403
+FMP PT MSFT status=403
+FMP EST MSFT status=403
+FMP MSFT no data returned
+SCHEMA[finnhub] MSFT: ['asof', 'earnings', 'recommendations']
+DEBUG: ticker=MSFT missing=pt_median,est_rev_nextFY,rev_lastFY,est_eps_nextFY,eps_lastFY
+FH PT AAPL status=403
+FH REC AAPL status=200
+FH ER AAPL status=200
+FH EPS AAPL status=403
+FH REV AAPL status=403
+FMP PT AAPL status=403
+FMP EST AAPL status=403
+FMP AAPL no data returned
+SCHEMA[finnhub] AAPL: ['asof', 'earnings', 'recommendations']
+DEBUG: ticker=AAPL missing=pt_median,est_rev_nextFY,rev_lastFY,est_eps_nextFY,eps_lastFY
+FH PT AMZN status=403
+FH REC AMZN status=200
+FH ER AMZN status=200
+FH EPS AMZN status=403
+FH REV AMZN status=403
+FMP PT AMZN status=403
+FMP EST AMZN status=403
+FMP AMZN no data returned
+SCHEMA[finnhub] AMZN: ['asof', 'earnings', 'recommendations']
+DEBUG: ticker=AMZN missing=pt_median,est_rev_nextFY,rev_lastFY,est_eps_nextFY,eps_lastFY
+FH PT NVDA status=403
+FH REC NVDA status=200
+FH ER NVDA status=200
+FH EPS NVDA status=403
+FH REV NVDA status=403
+FMP PT NVDA status=403
+FMP EST NVDA status=403
+FMP NVDA no data returned
+DEBUG: ticker=NVDA missing=pt_median,est_rev_nextFY,rev_lastFY,est_eps_nextFY,eps_lastFY
+FH PT JNJ status=403
+FH REC JNJ status=200
+FH ER JNJ status=200
+FH EPS JNJ status=403
+FH REV JNJ status=403
+FMP PT JNJ status=403
+FMP EST JNJ status=403
+FMP JNJ no data returned
+DEBUG: ticker=JNJ missing=pt_median,est_rev_nextFY,rev_lastFY,est_eps_nextFY,eps_lastFY
+FH PT XOM status=403
+FH REC XOM status=200
+FH ER XOM status=200
+FH EPS XOM status=403
+FH REV XOM status=403
+FMP PT XOM status=403
+FMP EST XOM status=403
+FMP XOM no data returned
+DEBUG: ticker=XOM missing=pt_median,est_rev_nextFY,rev_lastFY,est_eps_nextFY,eps_lastFY
+=== Missing summary (rows=6) ===
+growth_score: 6 missing (100.0%)
+final_grade: 6 missing (100.0%)
+revisions_score: 6 missing (100.0%)
+pt_upside_pct_score: 6 missing (100.0%)
+eps_g1y_pct_score: 6 missing (100.0%)
+dispersion_score: 6 missing (100.0%)
+rev_g1y_pct_score: 6 missing (100.0%)
+pt_mean: 6 missing (100.0%)
+eps_lastFY: 6 missing (100.0%)
+est_eps_nextFY: 6 missing (100.0%)
+rev_lastFY: 6 missing (100.0%)
+est_rev_nextFY: 6 missing (100.0%)
+pt_rev_score: 6 missing (100.0%)
+raw_weighted: 6 missing (100.0%)
+dispersion_w: 6 missing (100.0%)

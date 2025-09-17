@@ -1,7 +1,7 @@
 ticker,sector,final_grade,growth_score,pt_upside_pct_score,revisions_score,surprise_score,coverage_score,dispersion_score,rev_g1y_pct_score,eps_g1y_pct_score,last_close,prev_close,est_rev_nextFY,rev_lastFY,est_eps_nextFY,eps_lastFY,pt_median,pt_mean,pt_high,pt_low,pt_analystCount,eps_rev_90d_bps,pt_rev_90d_bps,eps_surprise_avg,rev_beat_rate,est_age_days,est_decay_mult,pt_age_days,pt_decay_mult,asof,rev_g1y_pct,eps_g1y_pct,pt_upside_pct,dispersion_pct,rev_g1y_pct_w,eps_g1y_pct_w,pt_upside_pct_w,dispersion_w,eps_rev_score,pt_rev_score,eps_surprise_score,rev_beat_score,raw_weighted
-MSFT,Information Technology,,,,,,0.0,,,,508.0592041015625,509.8999938964844,,,,,,,,,,,,,,,0.0,,0.0,2025-09-17T16:08:16Z,,,,,,,,,,,,,
-AAPL,Information Technology,,,,,,0.0,,,,239.36000061035156,234.07000732421875,,,,,,,,,,,,,,,0.0,,0.0,2025-09-17T16:08:17Z,,,,,,,,,,,,,
-AMZN,Consumer Discretionary,,,,,,0.0,,,,230.76499938964844,231.42999267578125,,,,,,,,,,,,,,,0.0,,0.0,2025-09-17T16:08:19Z,,,,,,,,,,,,,
-NVDA,Information Technology,,,,,50.0,0.0,,,,169.5749969482422,177.75,,,,,,,,,,,,2.130142982200178,0.0,,0.0,,0.0,2025-09-17T16:08:21Z,,,,,,,,,,,50.0,50.0,
-JNJ,Health Care,,,,,,0.0,,,,177.22999572753906,178.05999755859375,,,,,,,,,,,,,,,0.0,,0.0,2025-09-17T16:08:22Z,,,,,,,,,,,,,
-XOM,Energy,,,,,,0.0,,,,114.81649780273438,112.16000366210938,,,,,,,,,,,,,,,0.0,,0.0,2025-09-17T16:08:24Z,,,,,,,,,,,,,
+MSFT,Information Technology,,,,,,0.0,,,,507.20001220703125,509.0400085449219,,,,,,,,,,,,,,,0.0,,0.0,2025-09-17T18:21:07Z,,,,,,,,,,,,,
+AAPL,Information Technology,,,,,,0.0,,,,238.57000732421875,238.14999389648438,,,,,,,,,,,,,,,0.0,,0.0,2025-09-17T18:21:09Z,,,,,,,,,,,,,
+AMZN,Consumer Discretionary,,,,,,0.0,,,,230.61000061035156,234.0500030517578,,,,,,,,,,,,,,,0.0,,0.0,2025-09-17T18:21:11Z,,,,,,,,,,,,,
+NVDA,Information Technology,,,,,50.0,0.0,,,,169.92579650878906,174.8800048828125,,,,,,,,,,,,2.130142982200178,0.0,,0.0,,0.0,2025-09-17T18:21:13Z,,,,,,,,,,,50.0,50.0,
+JNJ,Health Care,,,,,,0.0,,,,177.0800018310547,176.4600067138672,,,,,,,,,,,,,,,0.0,,0.0,2025-09-17T18:21:16Z,,,,,,,,,,,,,
+XOM,Energy,,,,,,0.0,,,,115.11000061035156,114.68000030517578,,,,,,,,,,,,,,,0.0,,0.0,2025-09-17T18:21:18Z,,,,,,,,,,,,,

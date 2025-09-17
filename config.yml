@@ -50,7 +50,7 @@ paths:
 
 debug:
   enabled: true
-  log_file: output/debug_run.log
+  log_file: output/debuglog.txt
   write_missing_summary_csv: true
   missing_summary_csv: output/missing_summary.csv
   top_missing_columns: 15

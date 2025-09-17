@@ -1,0 +1,7 @@
+ticker,has_pt,has_est_rev,has_est_eps,has_quote,est_age_days,pt_age_days
+MSFT,False,False,False,True,,
+AAPL,False,False,False,True,,
+AMZN,False,False,False,True,,
+NVDA,False,False,False,True,,
+JNJ,False,False,False,True,,
+XOM,False,False,False,True,,
