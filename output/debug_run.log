@@ -1,0 +1,12 @@
+DEBUG: ticker=MSFT missing=pt_median,est_rev_nextFY,rev_lastFY,est_eps_nextFY,eps_lastFY
+DEBUG: ticker=AAPL missing=pt_median,est_rev_nextFY,rev_lastFY,est_eps_nextFY,eps_lastFY
+DEBUG: ticker=AMZN missing=pt_median,est_rev_nextFY,rev_lastFY,est_eps_nextFY,eps_lastFY
+DEBUG: ticker=NVDA missing=pt_median,est_rev_nextFY,rev_lastFY,est_eps_nextFY,eps_lastFY
+DEBUG: ticker=JNJ missing=pt_median,est_rev_nextFY,rev_lastFY,est_eps_nextFY,eps_lastFY
+DEBUG: ticker=XOM missing=pt_median,est_rev_nextFY,rev_lastFY,est_eps_nextFY,eps_lastFY
+DEBUG: ticker=MSFT missing=pt_median,est_rev_nextFY,rev_lastFY,est_eps_nextFY,eps_lastFY
+DEBUG: ticker=AAPL missing=pt_median,est_rev_nextFY,rev_lastFY,est_eps_nextFY,eps_lastFY
+DEBUG: ticker=AMZN missing=pt_median,est_rev_nextFY,rev_lastFY,est_eps_nextFY,eps_lastFY
+DEBUG: ticker=NVDA missing=pt_median,est_rev_nextFY,rev_lastFY,est_eps_nextFY,eps_lastFY
+DEBUG: ticker=JNJ missing=pt_median,est_rev_nextFY,rev_lastFY,est_eps_nextFY,eps_lastFY
+DEBUG: ticker=XOM missing=pt_median,est_rev_nextFY,rev_lastFY,est_eps_nextFY,eps_lastFY
