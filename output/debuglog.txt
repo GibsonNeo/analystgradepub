@@ -447,3 +447,299 @@ rev_g1y_pct: 36 missing (81.8%)
 ni_g1y_pct: 36 missing (81.8%)
 rev_g1y_pct_w: 36 missing (81.8%)
 ni_g1y_pct_w: 36 missing (81.8%)
+APIKEY Finnhub set=True
+APIKEY FMP set=True
+FH PT MSFT status=403
+FH REC MSFT status=200
+FH ER MSFT status=200
+SCHEMA[finnhub] MSFT: ['_history', 'asof', 'earnings', 'recommendations']
+SCHEMA[fmp] MSFT: ['analyst_estimates_stable', 'asof']
+YF PT fallback used for MSFT
+FH PT AAPL status=403
+FH REC AAPL status=200
+FH ER AAPL status=200
+SCHEMA[finnhub] AAPL: ['_history', 'asof', 'earnings', 'recommendations']
+SCHEMA[fmp] AAPL: ['analyst_estimates_stable', 'asof']
+YF PT fallback used for AAPL
+FH PT AMZN status=403
+FH REC AMZN status=200
+FH ER AMZN status=200
+SCHEMA[finnhub] AMZN: ['_history', 'asof', 'earnings', 'recommendations']
+SCHEMA[fmp] AMZN: ['analyst_estimates_stable', 'asof']
+YF PT fallback used for AMZN
+FH PT NVDA status=403
+FH REC NVDA status=200
+FH ER NVDA status=200
+YF PT fallback used for NVDA
+FH PT JNJ status=403
+FH REC JNJ status=200
+FH ER JNJ status=200
+YF PT fallback used for JNJ
+FH PT XOM status=403
+FH REC XOM status=200
+FH ER XOM status=200
+YF PT fallback used for XOM
+FH PT PLTR status=403
+FH REC PLTR status=200
+FH ER PLTR status=200
+FMP stable estimates PLTR status=200
+YF PT fallback used for PLTR
+FH PT HOOD status=403
+FH REC HOOD status=200
+FH ER HOOD status=200
+FMP stable estimates HOOD status=200
+YF PT fallback used for HOOD
+FH PT APP status=403
+FH REC APP status=200
+FH ER APP status=200
+FMP stable estimates APP status=402
+FMP APP stable estimates returned empty
+YF PT fallback used for APP
+DEBUG: ticker=APP missing=rev_growth,ni_growth
+FH PT CLS status=403
+FH REC CLS status=200
+FH ER CLS status=200
+FMP stable estimates CLS status=402
+FMP CLS stable estimates returned empty
+YF PT fallback used for CLS
+DEBUG: ticker=CLS missing=rev_growth,ni_growth
+FH PT IBKR status=403
+FH REC IBKR status=200
+FH ER IBKR status=200
+FMP stable estimates IBKR status=402
+FMP IBKR stable estimates returned empty
+YF PT fallback used for IBKR
+DEBUG: ticker=IBKR missing=rev_growth,ni_growth
+FH PT NFLX status=403
+FH REC NFLX status=200
+FH ER NFLX status=200
+FMP stable estimates NFLX status=200
+YF PT fallback used for NFLX
+FH PT CSCO status=403
+FH REC CSCO status=200
+FH ER CSCO status=200
+FMP stable estimates CSCO status=200
+YF PT fallback used for CSCO
+FH PT HWM status=403
+FH REC HWM status=200
+FH ER HWM status=200
+FMP stable estimates HWM status=402
+FMP HWM stable estimates returned empty
+YF PT fallback used for HWM
+DEBUG: ticker=HWM missing=rev_growth,ni_growth
+FH PT EAT status=403
+FH REC EAT status=200
+FH ER EAT status=200
+FMP stable estimates EAT status=402
+FMP EAT stable estimates returned empty
+YF PT fallback used for EAT
+DEBUG: ticker=EAT missing=rev_growth,ni_growth
+FH PT RCL status=403
+FH REC RCL status=200
+FH ER RCL status=200
+FMP stable estimates RCL status=402
+FMP RCL stable estimates returned empty
+YF PT fallback used for RCL
+DEBUG: ticker=RCL missing=rev_growth,ni_growth
+FH PT ETR status=403
+FH REC ETR status=200
+FH ER ETR status=200
+FMP stable estimates ETR status=402
+FMP ETR stable estimates returned empty
+YF PT fallback used for ETR
+DEBUG: ticker=ETR missing=rev_growth,ni_growth
+FH PT APH status=403
+FH REC APH status=200
+FH ER APH status=200
+FMP stable estimates APH status=402
+FMP APH stable estimates returned empty
+YF PT fallback used for APH
+DEBUG: ticker=APH missing=rev_growth,ni_growth
+FH PT SCHW status=403
+FH REC SCHW status=200
+FH ER SCHW status=200
+FMP stable estimates SCHW status=402
+FMP SCHW stable estimates returned empty
+YF PT fallback used for SCHW
+DEBUG: ticker=SCHW missing=rev_growth,ni_growth
+FH PT CME status=403
+FH REC CME status=200
+FH ER CME status=200
+FMP stable estimates CME status=402
+FMP CME stable estimates returned empty
+YF PT fallback used for CME
+DEBUG: ticker=CME missing=rev_growth,ni_growth
+FH PT BROS status=403
+FH REC BROS status=200
+FH ER BROS status=200
+FMP stable estimates BROS status=402
+FMP BROS stable estimates returned empty
+YF PT fallback used for BROS
+DEBUG: ticker=BROS missing=rev_growth,ni_growth
+FH PT WELL status=403
+FH REC WELL status=200
+FH ER WELL status=200
+FMP stable estimates WELL status=402
+FMP WELL stable estimates returned empty
+YF PT fallback used for WELL
+DEBUG: ticker=WELL missing=rev_growth,ni_growth
+FH PT GE status=403
+FH REC GE status=200
+FH ER GE status=200
+FMP stable estimates GE status=200
+YF PT fallback used for GE
+FH PT URBN status=403
+FH REC URBN status=200
+FH ER URBN status=200
+FMP stable estimates URBN status=402
+FMP URBN stable estimates returned empty
+YF PT fallback used for URBN
+DEBUG: ticker=URBN missing=rev_growth,ni_growth
+FH PT MNST status=403
+FH REC MNST status=200
+FH ER MNST status=200
+FMP stable estimates MNST status=402
+FMP MNST stable estimates returned empty
+YF PT fallback used for MNST
+DEBUG: ticker=MNST missing=rev_growth,ni_growth
+FH PT CDE status=403
+FH REC CDE status=200
+FH ER CDE status=200
+FMP stable estimates CDE status=402
+FMP CDE stable estimates returned empty
+YF PT fallback used for CDE
+DEBUG: ticker=CDE missing=rev_growth,ni_growth
+FH PT EQT status=403
+FH REC EQT status=200
+FH ER EQT status=200
+FMP stable estimates EQT status=402
+FMP EQT stable estimates returned empty
+YF PT fallback used for EQT
+DEBUG: ticker=EQT missing=rev_growth,ni_growth
+FH PT BSX status=403
+FH REC BSX status=200
+FH ER BSX status=200
+FMP stable estimates BSX status=402
+FMP BSX stable estimates returned empty
+YF PT fallback used for BSX
+DEBUG: ticker=BSX missing=rev_growth,ni_growth
+FH PT AM status=403
+FH REC AM status=200
+FH ER AM status=200
+FMP stable estimates AM status=402
+FMP AM stable estimates returned empty
+YF PT fallback used for AM
+DEBUG: ticker=AM missing=rev_growth,ni_growth
+FH PT META status=403
+FH REC META status=200
+FH ER META status=200
+FMP stable estimates META status=200
+YF PT fallback used for META
+FH PT WMB status=403
+FH REC WMB status=429
+FH ER WMB status=429
+FMP stable estimates WMB status=402
+FMP WMB stable estimates returned empty
+YF PT fallback used for WMB
+DEBUG: ticker=WMB missing=rev_growth,ni_growth
+FH PT RMBS status=403
+FH REC RMBS status=429
+FH ER RMBS status=429
+FMP stable estimates RMBS status=402
+FMP RMBS stable estimates returned empty
+YF PT fallback used for RMBS
+DEBUG: ticker=RMBS missing=rev_growth,ni_growth
+FH PT VEEV status=403
+FH REC VEEV status=429
+FH ER VEEV status=429
+FMP stable estimates VEEV status=402
+FMP VEEV stable estimates returned empty
+YF PT fallback used for VEEV
+DEBUG: ticker=VEEV missing=rev_growth,ni_growth
+FH PT MSFT status=403
+FH REC MSFT status=429
+FH ER MSFT status=429
+YF PT fallback used for MSFT
+FH PT DOCS status=403
+FH REC DOCS status=429
+FH ER DOCS status=429
+FMP stable estimates DOCS status=402
+FMP DOCS stable estimates returned empty
+YF PT fallback used for DOCS
+DEBUG: ticker=DOCS missing=rev_growth,ni_growth
+FH PT NEM status=403
+FH REC NEM status=429
+FH ER NEM status=429
+FMP stable estimates NEM status=402
+FMP NEM stable estimates returned empty
+YF PT fallback used for NEM
+DEBUG: ticker=NEM missing=rev_growth,ni_growth
+FH PT NVDA status=403
+FH REC NVDA status=429
+FH ER NVDA status=429
+YF PT fallback used for NVDA
+FH PT HESM status=403
+FH REC HESM status=429
+FH ER HESM status=429
+FMP stable estimates HESM status=402
+FMP HESM stable estimates returned empty
+YF PT fallback used for HESM
+DEBUG: ticker=HESM missing=rev_growth,ni_growth
+FH PT CTRE status=403
+FH REC CTRE status=429
+FH ER CTRE status=429
+FMP stable estimates CTRE status=402
+FMP CTRE stable estimates returned empty
+YF PT fallback used for CTRE
+DEBUG: ticker=CTRE missing=rev_growth,ni_growth
+FH PT ANET status=403
+FH REC ANET status=429
+FH ER ANET status=429
+FMP stable estimates ANET status=402
+FMP ANET stable estimates returned empty
+YF PT fallback used for ANET
+DEBUG: ticker=ANET missing=rev_growth,ni_growth
+FH PT LNG status=403
+FH REC LNG status=429
+FH ER LNG status=429
+FMP stable estimates LNG status=402
+FMP LNG stable estimates returned empty
+YF PT fallback used for LNG
+DEBUG: ticker=LNG missing=rev_growth,ni_growth
+FH PT HALO status=403
+FH REC HALO status=429
+FH ER HALO status=429
+FMP stable estimates HALO status=402
+FMP HALO stable estimates returned empty
+YF PT fallback used for HALO
+DEBUG: ticker=HALO missing=rev_growth,ni_growth
+FH PT CTRA status=403
+FH REC CTRA status=429
+FH ER CTRA status=429
+FMP stable estimates CTRA status=402
+FMP CTRA stable estimates returned empty
+YF PT fallback used for CTRA
+DEBUG: ticker=CTRA missing=rev_growth,ni_growth
+FH PT LLY status=403
+FH REC LLY status=429
+FH ER LLY status=429
+FMP stable estimates LLY status=402
+FMP LLY stable estimates returned empty
+YF PT fallback used for LLY
+DEBUG: ticker=LLY missing=rev_growth,ni_growth
+=== Missing summary (rows=44) ===
+revisions_score: 44 missing (100.0%)
+rec_mom_score: 44 missing (100.0%)
+rev_beat_rate: 41 missing (93.2%)
+eps_surprise_avg: 41 missing (93.2%)
+rec_mom_90d_bps: 36 missing (81.8%)
+growth_netincome_score: 30 missing (68.2%)
+est_age_days: 30 missing (68.2%)
+rev_lastFY: 30 missing (68.2%)
+est_rev_nextFY: 30 missing (68.2%)
+est_ni_nextFY: 30 missing (68.2%)
+growth_revenue_score: 30 missing (68.2%)
+rev_g1y_pct: 30 missing (68.2%)
+ni_g1y_pct: 30 missing (68.2%)
+rev_g1y_pct_w: 30 missing (68.2%)
+ni_g1y_pct_w: 30 missing (68.2%)
