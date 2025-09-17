@@ -1,0 +1,49 @@
+# Grader configuration (no CLI flags needed). Adjust and rerun.
+weights:
+  growth_total: 30
+  growth_revenue: 20
+  growth_eps: 10
+  upside: 25
+  revisions: 20
+  surprises: 15
+  coverage: 3
+  dispersion: 7
+
+gates:
+  cap_eps_le_zero: 60           # max final grade when next-FY EPS <= 0
+  cap_eps_le_zero_lowrev: 50    # when EPS<=0 and rev_growth<10%
+  rev_growth_low_threshold_pct: 10
+
+freshness:
+  estimates_full_days: 90
+  estimates_zero_days: 180
+  pt_full_days: 120
+  pt_zero_days: 240
+  reweight_missing: true
+  data_coverage_penalty_max: 3
+
+normalization:
+  winsorize_p_low: 5
+  winsorize_p_high: 95
+  sector_blend: 0.30          # sector fairness blend for biased metrics
+
+vendors:
+  use_finnhub: true
+  use_yfinance: true
+  use_fmp: true
+
+progress:
+  every: 100                   # print every N tickers
+
+fmp_harvest:
+  daily_quota: 250
+  ttl_days: 10                 # refresh FMP data older than this
+  ring_buffer: true
+  disagreement_threshold_pct: 15
+  merge_trimmed_mean: true
+  failure_backoff_days: 30     # if FMP returns not found/error, pause this ticker for N days
+
+paths:
+  output_dir: output
+  cache_dir: cache
+  state_dir: state
