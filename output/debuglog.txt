@@ -743,3 +743,1196 @@ rev_g1y_pct: 30 missing (68.2%)
 ni_g1y_pct: 30 missing (68.2%)
 rev_g1y_pct_w: 30 missing (68.2%)
 ni_g1y_pct_w: 30 missing (68.2%)
+APIKEY Finnhub set=True
+APIKEY FMP set=True
+FH PT SATS status=403
+FH REC SATS status=200
+FH ER SATS status=200
+FMP stable estimates SATS status=402
+FMP 402 for SATS: FMP_402_plan_symbol
+SCHEMA[finnhub] SATS: ['_history', 'asof', 'earnings', 'price_targets', 'recommendations']
+YF PT fallback used for SATS
+FH PT TME status=403
+FH REC TME status=200
+FH ER TME status=200
+FMP stable estimates TME status=402
+FMP 402 for TME: FMP_402_plan_symbol
+SCHEMA[finnhub] TME: ['_history', 'asof', 'earnings', 'price_targets', 'recommendations']
+YF PT fallback used for TME
+FH PT RDDT status=403
+FH REC RDDT status=200
+FH ER RDDT status=200
+FMP stable estimates RDDT status=402
+FMP 402 for RDDT: FMP_402_plan_symbol
+SCHEMA[finnhub] RDDT: ['_history', 'asof', 'earnings', 'price_targets', 'recommendations']
+YF PT fallback used for RDDT
+FH PT NTDOY status=403
+FH REC NTDOY status=200
+FH ER NTDOY status=200
+FMP stable estimates NTDOY status=402
+FMP 402 for NTDOY: FMP_402_plan_symbol
+YF PT fallback used for NTDOY
+FH PT SIRI status=403
+FH REC SIRI status=200
+FH ER SIRI status=200
+FMP stable estimates SIRI status=200
+SCHEMA[fmp] SIRI: ['analyst_estimates_stable', 'asof']
+YF PT fallback used for SIRI
+FH PT ROKU status=403
+FH REC ROKU status=200
+FH ER ROKU status=200
+FMP stable estimates ROKU status=200
+SCHEMA[fmp] ROKU: ['analyst_estimates_stable', 'asof']
+YF PT fallback used for ROKU
+FH PT WMG status=403
+FH REC WMG status=200
+FH ER WMG status=200
+FMP stable estimates WMG status=402
+FMP 402 for WMG: FMP_402_plan_symbol
+YF PT fallback used for WMG
+FH PT KT status=403
+FH REC KT status=200
+FH ER KT status=200
+FMP stable estimates KT status=402
+FMP 402 for KT: FMP_402_plan_symbol
+YF PT fallback used for KT
+FH PT NFLX status=403
+FH REC NFLX status=200
+FH ER NFLX status=200
+SCHEMA[fmp] NFLX: ['analyst_estimates_stable', 'asof']
+YF PT fallback used for NFLX
+FH PT IPG status=403
+FH REC IPG status=200
+FH ER IPG status=200
+FMP stable estimates IPG status=402
+FMP 402 for IPG: FMP_402_plan_symbol
+YF PT fallback used for IPG
+FH PT CMCSA status=403
+FH REC CMCSA status=200
+FH ER CMCSA status=200
+FMP stable estimates CMCSA status=402
+FMP 402 for CMCSA: FMP_402_plan_symbol
+YF PT fallback used for CMCSA
+FH PT NWSA status=403
+FH REC NWSA status=200
+FH ER NWSA status=200
+FMP stable estimates NWSA status=402
+FMP 402 for NWSA: FMP_402_plan_symbol
+YF PT fallback used for NWSA
+FH PT DIS status=403
+FH REC DIS status=200
+FH ER DIS status=200
+FMP stable estimates DIS status=200
+YF PT fallback used for DIS
+FH PT OMC status=403
+FH REC OMC status=200
+FH ER OMC status=200
+FMP stable estimates OMC status=402
+FMP 402 for OMC: FMP_402_plan_symbol
+YF PT fallback used for OMC
+FH PT FOXA status=403
+FH REC FOXA status=200
+FH ER FOXA status=200
+FMP stable estimates FOXA status=402
+FMP 402 for FOXA: FMP_402_plan_symbol
+YF PT fallback used for FOXA
+FH PT MTCH status=403
+FH REC MTCH status=200
+FH ER MTCH status=200
+FMP stable estimates MTCH status=402
+FMP 402 for MTCH: FMP_402_plan_symbol
+YF PT fallback used for MTCH
+FH PT LUMN status=403
+FH REC LUMN status=200
+FH ER LUMN status=200
+FMP stable estimates LUMN status=402
+FMP 402 for LUMN: FMP_402_plan_symbol
+YF PT fallback used for LUMN
+FH PT BCE status=403
+FH REC BCE status=200
+FH ER BCE status=200
+FMP stable estimates BCE status=402
+FMP 402 for BCE: FMP_402_plan_symbol
+YF PT fallback used for BCE
+FH PT RCI status=403
+FH REC RCI status=200
+FH ER RCI status=200
+FMP stable estimates RCI status=402
+FMP 402 for RCI: FMP_402_plan_symbol
+YF PT fallback used for RCI
+FH PT LBRDK status=403
+FH REC LBRDK status=200
+FH ER LBRDK status=200
+FMP stable estimates LBRDK status=402
+FMP 402 for LBRDK: FMP_402_plan_symbol
+YF PT fallback used for LBRDK
+FH PT VZ status=403
+FH REC VZ status=200
+FH ER VZ status=200
+FMP stable estimates VZ status=200
+YF PT fallback used for VZ
+FH PT TU status=403
+FH REC TU status=200
+FH ER TU status=200
+FMP stable estimates TU status=402
+FMP 402 for TU: FMP_402_plan_symbol
+YF PT fallback used for TU
+FH PT TTD status=403
+FH REC TTD status=200
+FH ER TTD status=200
+FMP stable estimates TTD status=402
+FMP 402 for TTD: FMP_402_plan_symbol
+YF PT fallback used for TTD
+FH PT CHTR status=403
+FH REC CHTR status=200
+FH ER CHTR status=200
+FMP stable estimates CHTR status=402
+FMP 402 for CHTR: FMP_402_plan_symbol
+YF PT fallback used for CHTR
+FH PT LYV status=403
+FH REC LYV status=200
+FH ER LYV status=200
+FMP stable estimates LYV status=402
+FMP 402 for LYV: FMP_402_plan_symbol
+YF PT fallback used for LYV
+FH PT TTWO status=403
+FH REC TTWO status=200
+FH ER TTWO status=200
+FMP stable estimates TTWO status=402
+FMP 402 for TTWO: FMP_402_plan_symbol
+YF PT fallback used for TTWO
+FH PT FOX status=403
+FH REC FOX status=200
+FH ER FOX status=200
+FMP stable estimates FOX status=402
+FMP 402 for FOX: FMP_402_plan_symbol
+FH PT VOD status=403
+FH REC VOD status=200
+FH ER VOD status=200
+FMP stable estimates VOD status=402
+FMP 402 for VOD: FMP_402_plan_symbol
+YF PT fallback used for VOD
+FH PT FYBR status=403
+FH REC FYBR status=200
+FH ER FYBR status=200
+FMP stable estimates FYBR status=402
+FMP 402 for FYBR: FMP_402_plan_symbol
+YF PT fallback used for FYBR
+FH PT TMUS status=403
+FH REC TMUS status=200
+FH ER TMUS status=200
+FMP stable estimates TMUS status=402
+FMP 402 for TMUS: FMP_402_plan_symbol
+YF PT fallback used for TMUS
+FH PT GOOGL status=403
+FH REC GOOGL status=429
+FH ER GOOGL status=429
+FMP stable estimates GOOGL status=200
+YF PT fallback used for GOOGL
+FH PT PINS status=403
+FH REC PINS status=429
+FH ER PINS status=429
+FMP stable estimates PINS status=200
+YF PT fallback used for PINS
+FH PT GOOG status=403
+FH REC GOOG status=429
+FH ER GOOG status=429
+FMP stable estimates GOOG status=402
+FMP 402 for GOOG: FMP_402_plan_symbol
+YF PT fallback used for GOOG
+FH PT RBLX status=403
+FH REC RBLX status=429
+FH ER RBLX status=429
+FMP stable estimates RBLX status=200
+YF PT fallback used for RBLX
+FH PT T status=403
+FH REC T status=429
+FH ER T status=429
+FMP stable estimates T status=200
+YF PT fallback used for T
+FH PT TCEHY status=403
+FH REC TCEHY status=429
+FH ER TCEHY status=200
+FMP stable estimates TCEHY status=402
+FMP 402 for TCEHY: FMP_402_plan_symbol
+YF PT fallback used for TCEHY
+FH PT VIV status=403
+FH REC VIV status=200
+FH ER VIV status=200
+FMP stable estimates VIV status=402
+FMP 402 for VIV: FMP_402_plan_symbol
+YF PT fallback used for VIV
+FH PT AMX status=403
+FH REC AMX status=200
+FH ER AMX status=200
+FMP stable estimates AMX status=402
+FMP 402 for AMX: FMP_402_plan_symbol
+YF PT fallback used for AMX
+FH PT META status=403
+FH REC META status=200
+FH ER META status=200
+YF PT fallback used for META
+FH PT NYT status=403
+FH REC NYT status=200
+FH ER NYT status=200
+FMP stable estimates NYT status=402
+FMP 402 for NYT: FMP_402_plan_symbol
+YF PT fallback used for NYT
+FH PT SNAP status=403
+FH REC SNAP status=200
+FH ER SNAP status=200
+FMP stable estimates SNAP status=200
+YF PT fallback used for SNAP
+FH PT TIGO status=403
+FH REC TIGO status=200
+FH ER TIGO status=200
+FMP stable estimates TIGO status=402
+FMP 402 for TIGO: FMP_402_plan_symbol
+YF PT fallback used for TIGO
+FH PT SPOT status=403
+FH REC SPOT status=200
+FH ER SPOT status=200
+FMP stable estimates SPOT status=402
+FMP 402 for SPOT: FMP_402_plan_symbol
+YF PT fallback used for SPOT
+FH PT ASTS status=403
+FH REC ASTS status=200
+FH ER ASTS status=200
+FMP stable estimates ASTS status=402
+FMP 402 for ASTS: FMP_402_plan_symbol
+YF PT fallback used for ASTS
+FH PT EA status=403
+FH REC EA status=200
+FH ER EA status=200
+FMP stable estimates EA status=402
+FMP 402 for EA: FMP_402_plan_symbol
+YF PT fallback used for EA
+FH PT BIDU status=403
+FH REC BIDU status=200
+FH ER BIDU status=200
+FMP stable estimates BIDU status=200
+YF PT fallback used for BIDU
+FH PT BILI status=403
+FH REC BILI status=200
+FH ER BILI status=200
+FMP stable estimates BILI status=200
+YF PT fallback used for BILI
+FH PT PSKY status=403
+FH REC PSKY status=200
+FH ER PSKY status=200
+FMP stable estimates PSKY status=402
+FMP 402 for PSKY: FMP_402_plan_symbol
+YF PT fallback used for PSKY
+FH PT WBD status=403
+FH REC WBD status=200
+FH ER WBD status=200
+FMP stable estimates WBD status=402
+FMP 402 for WBD: FMP_402_plan_symbol
+YF PT fallback used for WBD
+FH PT URBN status=403
+FH REC URBN status=200
+FH ER URBN status=200
+FMP stable estimates URBN status=402
+FMP 402 for URBN: FMP_402_plan_symbol
+YF PT fallback used for URBN
+FH PT GAP status=403
+FH REC GAP status=200
+FH ER GAP status=200
+FMP stable estimates GAP status=402
+FMP 402 for GAP: FMP_402_plan_symbol
+YF PT fallback used for GAP
+FH PT DKNG status=403
+FH REC DKNG status=200
+FH ER DKNG status=200
+FMP stable estimates DKNG status=402
+FMP 402 for DKNG: FMP_402_plan_symbol
+YF PT fallback used for DKNG
+FH PT FIVE status=403
+FH REC FIVE status=200
+FH ER FIVE status=200
+FMP stable estimates FIVE status=402
+FMP 402 for FIVE: FMP_402_plan_symbol
+YF PT fallback used for FIVE
+FH PT VFC status=403
+FH REC VFC status=200
+FH ER VFC status=200
+FMP stable estimates VFC status=402
+FMP 402 for VFC: FMP_402_plan_symbol
+YF PT fallback used for VFC
+FH PT RCL status=403
+FH REC RCL status=200
+FH ER RCL status=200
+FMP stable estimates RCL status=402
+FMP 402 for RCL: FMP_402_plan_symbol
+YF PT fallback used for RCL
+FH PT FLUT status=403
+FH REC FLUT status=200
+FH ER FLUT status=200
+FMP stable estimates FLUT status=402
+FMP 402 for FLUT: FMP_402_plan_symbol
+YF PT fallback used for FLUT
+FH PT CHWY status=403
+FH REC CHWY status=200
+FH ER CHWY status=200
+FMP stable estimates CHWY status=402
+FMP 402 for CHWY: FMP_402_plan_symbol
+YF PT fallback used for CHWY
+FH PT RIVN status=403
+FH REC RIVN status=200
+FH ER RIVN status=200
+FMP stable estimates RIVN status=200
+YF PT fallback used for RIVN
+FH PT DKS status=403
+FH REC DKS status=200
+FH ER DKS status=200
+FMP stable estimates DKS status=402
+FMP 402 for DKS: FMP_402_plan_symbol
+YF PT fallback used for DKS
+FH PT LULU status=403
+FH REC LULU status=200
+FH ER LULU status=200
+FMP stable estimates LULU status=402
+FMP 402 for LULU: FMP_402_plan_symbol
+YF PT fallback used for LULU
+FH PT MBLY status=403
+FH REC MBLY status=200
+FH ER MBLY status=200
+FMP stable estimates MBLY status=402
+FMP 402 for MBLY: FMP_402_plan_symbol
+YF PT fallback used for MBLY
+FH PT EAT status=403
+FH REC EAT status=200
+FH ER EAT status=200
+FMP stable estimates EAT status=402
+FMP 402 for EAT: FMP_402_plan_symbol
+YF PT fallback used for EAT
+FH PT BBY status=403
+FH REC BBY status=200
+FH ER BBY status=200
+FMP stable estimates BBY status=402
+FMP 402 for BBY: FMP_402_plan_symbol
+YF PT fallback used for BBY
+FH PT WSM status=403
+FH REC WSM status=200
+FH ER WSM status=200
+FMP stable estimates WSM status=402
+FMP 402 for WSM: FMP_402_plan_symbol
+YF PT fallback used for WSM
+FH PT LCID status=403
+FH REC LCID status=200
+FH ER LCID status=200
+FMP stable estimates LCID status=200
+YF PT fallback used for LCID
+FH PT VIK status=403
+FH REC VIK status=200
+FH ER VIK status=429
+FMP stable estimates VIK status=402
+FMP 402 for VIK: FMP_402_plan_symbol
+YF PT fallback used for VIK
+FH PT CZR status=403
+FH REC CZR status=429
+FH ER CZR status=429
+FMP stable estimates CZR status=402
+FMP 402 for CZR: FMP_402_plan_symbol
+YF PT fallback used for CZR
+FH PT WHR status=403
+FH REC WHR status=429
+FH ER WHR status=429
+FMP stable estimates WHR status=402
+FMP 402 for WHR: FMP_402_plan_symbol
+YF PT fallback used for WHR
+FH PT WH status=403
+FH REC WH status=429
+FH ER WH status=429
+FMP stable estimates WH status=402
+FMP 402 for WH: FMP_402_plan_symbol
+YF PT fallback used for WH
+FH PT CCL status=403
+FH REC CCL status=429
+FH ER CCL status=429
+FMP stable estimates CCL status=200
+YF PT fallback used for CCL
+FH PT BROS status=403
+FH REC BROS status=429
+FH ER BROS status=429
+FMP stable estimates BROS status=402
+FMP 402 for BROS: FMP_402_plan_symbol
+YF PT fallback used for BROS
+FH PT W status=403
+FH REC W status=200
+FH ER W status=200
+FMP stable estimates W status=402
+FMP 402 for W: FMP_402_plan_symbol
+YF PT fallback used for W
+FH PT MTH status=403
+FH REC MTH status=200
+FH ER MTH status=200
+FMP stable estimates MTH status=402
+FMP 402 for MTH: FMP_402_plan_symbol
+YF PT fallback used for MTH
+FH PT LTH status=403
+FH REC LTH status=200
+FH ER LTH status=200
+FMP stable estimates LTH status=402
+FMP 402 for LTH: FMP_402_plan_symbol
+YF PT fallback used for LTH
+FH PT GLBE status=403
+FH REC GLBE status=200
+FH ER GLBE status=200
+FMP stable estimates GLBE status=402
+FMP 402 for GLBE: FMP_402_plan_symbol
+YF PT fallback used for GLBE
+FH PT STLA status=403
+FH REC STLA status=200
+FH ER STLA status=200
+FMP stable estimates STLA status=402
+FMP 402 for STLA: FMP_402_plan_symbol
+YF PT fallback used for STLA
+FH PT CUK status=403
+FH REC CUK status=200
+FH ER CUK status=200
+FMP stable estimates CUK status=402
+FMP 402 for CUK: FMP_402_plan_symbol
+YF PT fallback used for CUK
+FH PT YUMC status=403
+FH REC YUMC status=200
+FH ER YUMC status=200
+FMP stable estimates YUMC status=402
+FMP 402 for YUMC: FMP_402_plan_symbol
+YF PT fallback used for YUMC
+FH PT SGHC status=403
+FH REC SGHC status=200
+FH ER SGHC status=200
+FMP stable estimates SGHC status=402
+FMP 402 for SGHC: FMP_402_plan_symbol
+YF PT fallback used for SGHC
+FH PT KMX status=403
+FH REC KMX status=200
+FH ER KMX status=200
+FMP stable estimates KMX status=402
+FMP 402 for KMX: FMP_402_plan_symbol
+YF PT fallback used for KMX
+FH PT GIL status=403
+FH REC GIL status=200
+FH ER GIL status=200
+FMP stable estimates GIL status=402
+FMP 402 for GIL: FMP_402_plan_symbol
+YF PT fallback used for GIL
+FH PT BIRK status=403
+FH REC BIRK status=200
+FH ER BIRK status=200
+FMP stable estimates BIRK status=402
+FMP 402 for BIRK: FMP_402_plan_symbol
+YF PT fallback used for BIRK
+FH PT TOL status=403
+FH REC TOL status=200
+FH ER TOL status=200
+FMP stable estimates TOL status=402
+FMP 402 for TOL: FMP_402_plan_symbol
+YF PT fallback used for TOL
+FH PT BBWI status=403
+FH REC BBWI status=200
+FH ER BBWI status=200
+FMP stable estimates BBWI status=402
+FMP 402 for BBWI: FMP_402_plan_symbol
+YF PT fallback used for BBWI
+FH PT SGI status=403
+FH REC SGI status=200
+FH ER SGI status=200
+FMP stable estimates SGI status=402
+FMP 402 for SGI: FMP_402_plan_symbol
+YF PT fallback used for SGI
+FH PT MGM status=403
+FH REC MGM status=200
+FH ER MGM status=200
+FMP stable estimates MGM status=200
+YF PT fallback used for MGM
+FH PT LVS status=403
+FH REC LVS status=200
+FH ER LVS status=200
+FMP stable estimates LVS status=402
+FMP 402 for LVS: FMP_402_plan_symbol
+YF PT fallback used for LVS
+FH PT JD status=403
+FH REC JD status=200
+FH ER JD status=200
+FMP stable estimates JD status=402
+FMP 402 for JD: FMP_402_plan_symbol
+YF PT fallback used for JD
+FH PT ROST status=403
+FH REC ROST status=200
+FH ER ROST status=200
+FMP stable estimates ROST status=402
+FMP 402 for ROST: FMP_402_plan_symbol
+YF PT fallback used for ROST
+FH PT TMHC status=403
+FH REC TMHC status=200
+FH ER TMHC status=200
+FMP stable estimates TMHC status=402
+FMP 402 for TMHC: FMP_402_plan_symbol
+YF PT fallback used for TMHC
+FH PT LEN status=403
+FH REC LEN status=200
+FH ER LEN status=200
+FMP stable estimates LEN status=402
+FMP 402 for LEN: FMP_402_plan_symbol
+YF PT fallback used for LEN
+FH PT HAS status=403
+FH REC HAS status=200
+FH ER HAS status=200
+FMP stable estimates HAS status=402
+FMP 402 for HAS: FMP_402_plan_symbol
+YF PT fallback used for HAS
+FH PT WYNN status=403
+FH REC WYNN status=200
+FH ER WYNN status=200
+FMP stable estimates WYNN status=402
+FMP 402 for WYNN: FMP_402_plan_symbol
+YF PT fallback used for WYNN
+FH PT FND status=403
+FH REC FND status=200
+FH ER FND status=200
+FMP stable estimates FND status=402
+FMP 402 for FND: FMP_402_plan_symbol
+YF PT fallback used for FND
+FH PT LKQ status=403
+FH REC LKQ status=200
+FH ER LKQ status=200
+FMP stable estimates LKQ status=402
+FMP 402 for LKQ: FMP_402_plan_symbol
+YF PT fallback used for LKQ
+FH PT EBAY status=403
+FH REC EBAY status=200
+FH ER EBAY status=200
+FMP stable estimates EBAY status=402
+FMP 402 for EBAY: FMP_402_plan_symbol
+YF PT fallback used for EBAY
+FH PT NKE status=403
+FH REC NKE status=200
+FH ER NKE status=200
+FMP stable estimates NKE status=200
+YF PT fallback used for NKE
+FH PT HRB status=403
+FH REC HRB status=200
+FH ER HRB status=200
+FMP stable estimates HRB status=402
+FMP 402 for HRB: FMP_402_plan_symbol
+YF PT fallback used for HRB
+FH PT DHI status=403
+FH REC DHI status=200
+FH ER DHI status=200
+FMP stable estimates DHI status=402
+FMP 402 for DHI: FMP_402_plan_symbol
+YF PT fallback used for DHI
+FH PT PLNT status=403
+FH REC PLNT status=200
+FH ER PLNT status=200
+FMP stable estimates PLNT status=402
+FMP 402 for PLNT: FMP_402_plan_symbol
+YF PT fallback used for PLNT
+FH PT AS status=403
+FH REC AS status=200
+FH ER AS status=200
+FMP stable estimates AS status=402
+FMP 402 for AS: FMP_402_plan_symbol
+YF PT fallback used for AS
+FH PT EDU status=403
+FH REC EDU status=429
+FH ER EDU status=429
+FMP stable estimates EDU status=402
+FMP 402 for EDU: FMP_402_plan_symbol
+YF PT fallback used for EDU
+FH PT BYD status=403
+FH REC BYD status=429
+FH ER BYD status=429
+FMP stable estimates BYD status=402
+FMP 402 for BYD: FMP_402_plan_symbol
+YF PT fallback used for BYD
+FH PT BWA status=403
+FH REC BWA status=429
+FH ER BWA status=429
+FMP stable estimates BWA status=402
+FMP 402 for BWA: FMP_402_plan_symbol
+YF PT fallback used for BWA
+FH PT MAT status=403
+FH REC MAT status=429
+FH ER MAT status=429
+FMP stable estimates MAT status=402
+FMP 402 for MAT: FMP_402_plan_symbol
+YF PT fallback used for MAT
+FH PT SN status=403
+FH REC SN status=429
+FH ER SN status=429
+FMP stable estimates SN status=402
+FMP 402 for SN: FMP_402_plan_symbol
+YF PT fallback used for SN
+FH PT TCOM status=403
+FH REC TCOM status=429
+FH ER TCOM status=429
+FMP stable estimates TCOM status=402
+FMP 402 for TCOM: FMP_402_plan_symbol
+YF PT fallback used for TCOM
+FH PT PHM status=403
+FH REC PHM status=429
+FH ER PHM status=429
+FMP stable estimates PHM status=402
+FMP 402 for PHM: FMP_402_plan_symbol
+YF PT fallback used for PHM
+FH PT APTV status=403
+FH REC APTV status=200
+FH ER APTV status=200
+FMP stable estimates APTV status=402
+FMP 402 for APTV: FMP_402_plan_symbol
+YF PT fallback used for APTV
+FH PT ETSY status=403
+FH REC ETSY status=200
+FH ER ETSY status=200
+FMP stable estimates ETSY status=200
+YF PT fallback used for ETSY
+FH PT NCLH status=403
+FH REC NCLH status=200
+FH ER NCLH status=200
+FMP stable estimates NCLH status=402
+FMP 402 for NCLH: FMP_402_plan_symbol
+YF PT fallback used for NCLH
+FH PT CAVA status=403
+FH REC CAVA status=200
+FH ER CAVA status=200
+FMP stable estimates CAVA status=402
+FMP 402 for CAVA: FMP_402_plan_symbol
+YF PT fallback used for CAVA
+FH PT GPC status=403
+FH REC GPC status=200
+FH ER GPC status=200
+FMP stable estimates GPC status=402
+FMP 402 for GPC: FMP_402_plan_symbol
+YF PT fallback used for GPC
+FH PT ARMK status=403
+FH REC ARMK status=200
+FH ER ARMK status=200
+FMP stable estimates ARMK status=402
+FMP 402 for ARMK: FMP_402_plan_symbol
+YF PT fallback used for ARMK
+FH PT MCD status=403
+FH REC MCD status=200
+FH ER MCD status=200
+FMP stable estimates MCD status=402
+FMP 402 for MCD: FMP_402_plan_symbol
+YF PT fallback used for MCD
+FH PT TJX status=403
+FH REC TJX status=200
+FH ER TJX status=200
+FMP stable estimates TJX status=402
+FMP 402 for TJX: FMP_402_plan_symbol
+YF PT fallback used for TJX
+FH PT ONON status=403
+FH REC ONON status=200
+FH ER ONON status=200
+FMP stable estimates ONON status=402
+FMP 402 for ONON: FMP_402_plan_symbol
+YF PT fallback used for ONON
+FH PT QSR status=403
+FH REC QSR status=200
+FH ER QSR status=200
+FMP stable estimates QSR status=402
+FMP 402 for QSR: FMP_402_plan_symbol
+YF PT fallback used for QSR
+FH PT MGA status=403
+FH REC MGA status=200
+FH ER MGA status=200
+FMP stable estimates MGA status=402
+FMP 402 for MGA: FMP_402_plan_symbol
+YF PT fallback used for MGA
+FH PT DASH status=403
+FH REC DASH status=200
+FH ER DASH status=200
+FMP stable estimates DASH status=402
+FMP 402 for DASH: FMP_402_plan_symbol
+YF PT fallback used for DASH
+FH PT CMG status=403
+FH REC CMG status=200
+FH ER CMG status=200
+FMP stable estimates CMG status=402
+FMP 402 for CMG: FMP_402_plan_symbol
+YF PT fallback used for CMG
+FH PT ATAT status=403
+FH REC ATAT status=200
+FH ER ATAT status=200
+FMP stable estimates ATAT status=402
+FMP 402 for ATAT: FMP_402_plan_symbol
+YF PT fallback used for ATAT
+FH PT AMZN status=403
+FH REC AMZN status=200
+FH ER AMZN status=200
+YF PT fallback used for AMZN
+FH PT LEVI status=403
+FH REC LEVI status=200
+FH ER LEVI status=200
+FMP stable estimates LEVI status=402
+FMP 402 for LEVI: FMP_402_plan_symbol
+YF PT fallback used for LEVI
+FH PT F status=403
+FH REC F status=200
+FH ER F status=200
+FMP stable estimates F status=200
+YF PT fallback used for F
+FH PT SBUX status=403
+FH REC SBUX status=200
+FH ER SBUX status=200
+FMP stable estimates SBUX status=200
+YF PT fallback used for SBUX
+FH PT MAR status=403
+FH REC MAR status=200
+FH ER MAR status=200
+FMP stable estimates MAR status=402
+FMP 402 for MAR: FMP_402_plan_symbol
+YF PT fallback used for MAR
+FH PT DUOL status=403
+FH REC DUOL status=200
+FH ER DUOL status=200
+FMP stable estimates DUOL status=402
+FMP 402 for DUOL: FMP_402_plan_symbol
+YF PT fallback used for DUOL
+FH PT ABNB status=403
+FH REC ABNB status=200
+FH ER ABNB status=200
+FMP stable estimates ABNB status=402
+FMP 402 for ABNB: FMP_402_plan_symbol
+YF PT fallback used for ABNB
+FH PT TPR status=403
+FH REC TPR status=200
+FH ER TPR status=200
+FMP stable estimates TPR status=402
+FMP 402 for TPR: FMP_402_plan_symbol
+YF PT fallback used for TPR
+FH PT DRI status=403
+FH REC DRI status=200
+FH ER DRI status=200
+FMP stable estimates DRI status=402
+FMP 402 for DRI: FMP_402_plan_symbol
+YF PT fallback used for DRI
+FH PT GM status=403
+FH REC GM status=200
+FH ER GM status=200
+FMP stable estimates GM status=200
+YF PT fallback used for GM
+FH PT ORLY status=403
+FH REC ORLY status=200
+FH ER ORLY status=200
+FMP stable estimates ORLY status=402
+FMP 402 for ORLY: FMP_402_plan_symbol
+YF PT fallback used for ORLY
+FH PT BABA status=403
+FH REC BABA status=200
+FH ER BABA status=200
+FMP stable estimates BABA status=200
+YF PT fallback used for BABA
+FH PT SE status=403
+FH REC SE status=200
+FH ER SE status=200
+FMP stable estimates SE status=402
+FMP 402 for SE: FMP_402_plan_symbol
+YF PT fallback used for SE
+FH PT ADT status=403
+FH REC ADT status=200
+FH ER ADT status=200
+FMP stable estimates ADT status=402
+FMP 402 for ADT: FMP_402_plan_symbol
+YF PT fallback used for ADT
+FH PT PDD status=403
+FH REC PDD status=200
+FH ER PDD status=200
+FMP stable estimates PDD status=402
+FMP 402 for PDD: FMP_402_plan_symbol
+YF PT fallback used for PDD
+FH PT LOW status=403
+FH REC LOW status=200
+FH ER LOW status=200
+FMP stable estimates LOW status=402
+FMP 402 for LOW: FMP_402_plan_symbol
+YF PT fallback used for LOW
+FH PT VVV status=403
+FH REC VVV status=429
+FH ER VVV status=429
+FMP stable estimates VVV status=402
+FMP 402 for VVV: FMP_402_plan_symbol
+YF PT fallback used for VVV
+FH PT HD status=403
+FH REC HD status=0
+FH ER HD status=429
+FMP stable estimates HD status=402
+FMP 402 for HD: FMP_402_plan_symbol
+YF PT fallback used for HD
+FH PT CPNG status=403
+FH REC CPNG status=429
+FH ER CPNG status=429
+FMP stable estimates CPNG status=402
+FMP 402 for CPNG: FMP_402_plan_symbol
+YF PT fallback used for CPNG
+FH PT OLLI status=403
+FH REC OLLI status=429
+FH ER OLLI status=429
+FMP stable estimates OLLI status=402
+FMP 402 for OLLI: FMP_402_plan_symbol
+YF PT fallback used for OLLI
+FH PT SKX status=403
+FH REC SKX status=429
+FH ER SKX status=429
+FMP stable estimates SKX status=402
+FMP 402 for SKX: FMP_402_plan_symbol
+YF PT fallback used for SKX
+FH PT SONY status=403
+FH REC SONY status=200
+FH ER SONY status=200
+FMP stable estimates SONY status=200
+YF PT fallback used for SONY
+FH PT VIPS status=403
+FH REC VIPS status=200
+FH ER VIPS status=200
+FMP stable estimates VIPS status=402
+FMP 402 for VIPS: FMP_402_plan_symbol
+YF PT fallback used for VIPS
+FH PT GNTX status=403
+FH REC GNTX status=200
+FH ER GNTX status=200
+FMP stable estimates GNTX status=402
+FMP 402 for GNTX: FMP_402_plan_symbol
+YF PT fallback used for GNTX
+FH PT YUM status=403
+FH REC YUM status=200
+FH ER YUM status=200
+FMP stable estimates YUM status=402
+FMP 402 for YUM: FMP_402_plan_symbol
+YF PT fallback used for YUM
+FH PT GME status=403
+FH REC GME status=200
+FH ER GME status=200
+FMP stable estimates GME status=402
+FMP 402 for GME: FMP_402_plan_symbol
+YF PT fallback used for GME
+FH PT EXPE status=403
+FH REC EXPE status=200
+FH ER EXPE status=200
+FMP stable estimates EXPE status=402
+FMP 402 for EXPE: FMP_402_plan_symbol
+YF PT fallback used for EXPE
+FH PT LI status=403
+FH REC LI status=200
+FH ER LI status=200
+FMP stable estimates LI status=402
+FMP 402 for LI: FMP_402_plan_symbol
+YF PT fallback used for LI
+FH PT DECK status=403
+FH REC DECK status=200
+FH ER DECK status=200
+FMP stable estimates DECK status=402
+FMP 402 for DECK: FMP_402_plan_symbol
+YF PT fallback used for DECK
+FH PT HTHT status=403
+FH REC HTHT status=200
+FH ER HTHT status=200
+FMP stable estimates HTHT status=402
+FMP 402 for HTHT: FMP_402_plan_symbol
+YF PT fallback used for HTHT
+FH PT LNW status=403
+FH REC LNW status=200
+FH ER LNW status=200
+FMP stable estimates LNW status=402
+FMP 402 for LNW: FMP_402_plan_symbol
+YF PT fallback used for LNW
+FH PT TSCO status=403
+FH REC TSCO status=200
+FH ER TSCO status=200
+FMP stable estimates TSCO status=402
+FMP 402 for TSCO: FMP_402_plan_symbol
+YF PT fallback used for TSCO
+FH PT SRAD status=403
+FH REC SRAD status=200
+FH ER SRAD status=200
+FMP stable estimates SRAD status=402
+FMP 402 for SRAD: FMP_402_plan_symbol
+YF PT fallback used for SRAD
+FH PT XPEV status=403
+FH REC XPEV status=200
+FH ER XPEV status=200
+FMP stable estimates XPEV status=402
+FMP 402 for XPEV: FMP_402_plan_symbol
+YF PT fallback used for XPEV
+FH PT MOD status=403
+FH REC MOD status=200
+FH ER MOD status=200
+FMP stable estimates MOD status=402
+FMP 402 for MOD: FMP_402_plan_symbol
+YF PT fallback used for MOD
+FH PT TAL status=403
+FH REC TAL status=200
+FH ER TAL status=200
+FMP stable estimates TAL status=402
+FMP 402 for TAL: FMP_402_plan_symbol
+YF PT fallback used for TAL
+FH PT CVNA status=403
+FH REC CVNA status=200
+FH ER CVNA status=200
+FMP stable estimates CVNA status=402
+FMP 402 for CVNA: FMP_402_plan_symbol
+YF PT fallback used for CVNA
+FH PT NIO status=403
+FH REC NIO status=200
+FH ER NIO status=200
+FMP stable estimates NIO status=200
+YF PT fallback used for NIO
+FH PT TSLA status=403
+FH REC TSLA status=200
+FH ER TSLA status=200
+FMP stable estimates TSLA status=200
+YF PT fallback used for TSLA
+FH PT QS status=403
+FH REC QS status=200
+FH ER QS status=200
+FMP stable estimates QS status=402
+FMP 402 for QS: FMP_402_plan_symbol
+YF PT fallback used for QS
+FH PT EL status=403
+FH REC EL status=200
+FH ER EL status=200
+FMP stable estimates EL status=402
+FMP 402 for EL: FMP_402_plan_symbol
+YF PT fallback used for EL
+FH PT SJM status=403
+FH REC SJM status=200
+FH ER SJM status=200
+FMP stable estimates SJM status=402
+FMP 402 for SJM: FMP_402_plan_symbol
+YF PT fallback used for SJM
+FH PT STZ status=403
+FH REC STZ status=200
+FH ER STZ status=200
+FMP stable estimates STZ status=402
+FMP 402 for STZ: FMP_402_plan_symbol
+YF PT fallback used for STZ
+FH PT ELF status=403
+FH REC ELF status=200
+FH ER ELF status=200
+FMP stable estimates ELF status=402
+FMP 402 for ELF: FMP_402_plan_symbol
+YF PT fallback used for ELF
+FH PT DLTR status=403
+FH REC DLTR status=200
+FH ER DLTR status=200
+FMP stable estimates DLTR status=402
+FMP 402 for DLTR: FMP_402_plan_symbol
+YF PT fallback used for DLTR
+FH PT DEO status=403
+FH REC DEO status=200
+FH ER DEO status=200
+FMP stable estimates DEO status=402
+FMP 402 for DEO: FMP_402_plan_symbol
+YF PT fallback used for DEO
+FH PT TGT status=403
+FH REC TGT status=200
+FH ER TGT status=200
+FMP stable estimates TGT status=200
+YF PT fallback used for TGT
+FH PT TSN status=403
+FH REC TSN status=200
+FH ER TSN status=200
+FMP stable estimates TSN status=402
+FMP 402 for TSN: FMP_402_plan_symbol
+YF PT fallback used for TSN
+FH PT CPB status=403
+FH REC CPB status=200
+FH ER CPB status=200
+FMP stable estimates CPB status=402
+FMP 402 for CPB: FMP_402_plan_symbol
+YF PT fallback used for CPB
+FH PT CHD status=403
+FH REC CHD status=200
+FH ER CHD status=200
+FMP stable estimates CHD status=402
+FMP 402 for CHD: FMP_402_plan_symbol
+YF PT fallback used for CHD
+FH PT KHC status=403
+FH REC KHC status=200
+FH ER KHC status=200
+FMP stable estimates KHC status=402
+FMP 402 for KHC: FMP_402_plan_symbol
+YF PT fallback used for KHC
+FH PT TAP status=403
+FH REC TAP status=429
+FH ER TAP status=429
+FMP stable estimates TAP status=402
+FMP 402 for TAP: FMP_402_plan_symbol
+YF PT fallback used for TAP
+FH PT CAG status=403
+FH REC CAG status=429
+FH ER CAG status=429
+FMP stable estimates CAG status=402
+FMP 402 for CAG: FMP_402_plan_symbol
+YF PT fallback used for CAG
+FH PT GIS status=403
+FH REC GIS status=429
+FH ER GIS status=429
+FMP stable estimates GIS status=402
+FMP 402 for GIS: FMP_402_plan_symbol
+YF PT fallback used for GIS
+FH PT HRL status=403
+FH REC HRL status=429
+FH ER HRL status=429
+FMP stable estimates HRL status=402
+FMP 402 for HRL: FMP_402_plan_symbol
+YF PT fallback used for HRL
+FH PT KDP status=403
+FH REC KDP status=429
+FH ER KDP status=429
+FMP stable estimates KDP status=402
+FMP 402 for KDP: FMP_402_plan_symbol
+YF PT fallback used for KDP
+FH PT SFM status=403
+FH REC SFM status=429
+FH ER SFM status=429
+FMP stable estimates SFM status=402
+FMP 402 for SFM: FMP_402_plan_symbol
+YF PT fallback used for SFM
+FH PT BTI status=403
+FH REC BTI status=429
+FH ER BTI status=429
+FMP stable estimates BTI status=402
+FMP 402 for BTI: FMP_402_plan_symbol
+YF PT fallback used for BTI
+FH PT MKC status=403
+FH REC MKC status=200
+FH ER MKC status=200
+FMP stable estimates MKC status=402
+FMP 402 for MKC: FMP_402_plan_symbol
+YF PT fallback used for MKC
+FH PT LW status=403
+FH REC LW status=200
+FH ER LW status=200
+FMP stable estimates LW status=402
+FMP 402 for LW: FMP_402_plan_symbol
+YF PT fallback used for LW
+FH PT PRMB status=403
+FH REC PRMB status=200
+FH ER PRMB status=200
+FMP stable estimates PRMB status=402
+FMP 402 for PRMB: FMP_402_plan_symbol
+YF PT fallback used for PRMB
+FH PT KMB status=403
+FH REC KMB status=200
+FH ER KMB status=200
+FMP stable estimates KMB status=402
+FMP 402 for KMB: FMP_402_plan_symbol
+YF PT fallback used for KMB
+FH PT BUD status=403
+FH REC BUD status=200
+FH ER BUD status=200
+FMP stable estimates BUD status=402
+FMP 402 for BUD: FMP_402_plan_symbol
+YF PT fallback used for BUD
+FH PT PM status=403
+FH REC PM status=200
+FH ER PM status=200
+FMP stable estimates PM status=402
+FMP 402 for PM: FMP_402_plan_symbol
+YF PT fallback used for PM
+FH PT PPC status=403
+FH REC PPC status=200
+FH ER PPC status=200
+FMP stable estimates PPC status=402
+FMP 402 for PPC: FMP_402_plan_symbol
+YF PT fallback used for PPC
+FH PT UL status=403
+FH REC UL status=200
+FH ER UL status=200
+FMP stable estimates UL status=402
+FMP 402 for UL: FMP_402_plan_symbol
+YF PT fallback used for UL
+FH PT DG status=403
+FH REC DG status=200
+FH ER DG status=200
+FMP stable estimates DG status=402
+FMP 402 for DG: FMP_402_plan_symbol
+YF PT fallback used for DG
+FH PT CL status=403
+FH REC CL status=200
+FH ER CL status=200
+FMP stable estimates CL status=402
+FMP 402 for CL: FMP_402_plan_symbol
+YF PT fallback used for CL
+FH PT KO status=403
+FH REC KO status=200
+FH ER KO status=200
+FMP stable estimates KO status=200
+YF PT fallback used for KO
+FH PT CLX status=403
+FH REC CLX status=200
+FH ER CLX status=200
+FMP stable estimates CLX status=402
+FMP 402 for CLX: FMP_402_plan_symbol
+YF PT fallback used for CLX
+FH PT USFD status=403
+FH REC USFD status=200
+FH ER USFD status=200
+FMP stable estimates USFD status=402
+FMP 402 for USFD: FMP_402_plan_symbol
+YF PT fallback used for USFD
+FH PT JBS status=403
+FH REC JBS status=200
+FH ER JBS status=200
+FMP stable estimates JBS status=402
+FMP 402 for JBS: FMP_402_plan_symbol
+YF PT fallback used for JBS
+FH PT PEP status=403
+FH REC PEP status=200
+FH ER PEP status=200
+FMP stable estimates PEP status=200
+YF PT fallback used for PEP
+FH PT PG status=403
+FH REC PG status=200
+FH ER PG status=200
+FMP stable estimates PG status=429
+FMP ERR PG: status=429 body={
+  "Error Message": "Limit Reach . Please upgrade your plan or visit our documentation for more details at https://site.financialmodelingpr
+YF PT fallback used for PG
+FH PT BG status=403
+FH REC BG status=200
+FH ER BG status=200
+FMP stable estimates BG status=429
+FMP ERR BG: status=429 body={
+  "Error Message": "Limit Reach . Please upgrade your plan or visit our documentation for more details at https://site.financialmodelingpr
+YF PT fallback used for BG
+FH PT CCEP status=403
+FH REC CCEP status=200
+FH ER CCEP status=200
+FMP stable estimates CCEP status=429
+FMP ERR CCEP: status=429 body={
+  "Error Message": "Limit Reach . Please upgrade your plan or visit our documentation for more details at https://site.financialmodelingpr
+YF PT fallback used for CCEP
+FH PT SFD status=403
+FH REC SFD status=200
+FH ER SFD status=200
+FMP stable estimates SFD status=429
+FMP ERR SFD: status=429 body={
+  "Error Message": "Limit Reach . Please upgrade your plan or visit our documentation for more details at https://site.financialmodelingpr
+YF PT fallback used for SFD
+FH PT PFGC status=403
+FH REC PFGC status=200
+FH ER PFGC status=200
+FMP stable estimates PFGC status=429
+FMP ERR PFGC: status=429 body={
+  "Error Message": "Limit Reach . Please upgrade your plan or visit our documentation for more details at https://site.financialmodelingpr
+YF PT fallback used for PFGC
+FH PT HSY status=403
+FH REC HSY status=200
+FH ER HSY status=200
+FMP stable estimates HSY status=429
+FMP ERR HSY: status=429 body={
+  "Error Message": "Limit Reach . Please upgrade your plan or visit our documentation for more details at https://site.financialmodelingpr
+YF PT fallback used for HSY
+FH PT K status=403
+FH REC K status=200
+FH ER K status=200
+FMP stable estimates K status=429
+FMP ERR K: status=429 body={
+  "Error Message": "Limit Reach . Please upgrade your plan or visit our documentation for more details at https://site.financialmodelingpr
+YF PT fallback used for K

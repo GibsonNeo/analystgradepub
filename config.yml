@@ -59,3 +59,13 @@ debug:
   write_missing_summary_csv: true
   missing_summary_csv: output/missing_summary.csv
   top_missing_columns: 15
+
+fmp_harvest:
+  daily_quota: 250
+  ttl_days: 10
+  failure_backoff_days: 30
+  retries: 3            # <— NEW: transient retry attempts for FMP (429/5xx/timeout)
+
+finnhub_rate:
+  sleep_ms_between_calls: 120  # <— NEW: gentle throttle to avoid 429s
+

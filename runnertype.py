@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import os, json
+import os, json, time
 from typing import Dict, Any, List, Optional, Tuple
 from datetime import datetime, timedelta, date
 import pandas as pd
@@ -15,7 +15,10 @@ from data_cache import (
     load_fmp_state, save_fmp_state
 )
 from scoring import compute_component_columns, apply_weights_and_gates, order_columns
-from merge_utils import merge_targets  # still used if you keep it; harmless either way
+
+# -------------------------
+# Debug / logging
+# -------------------------
 
 def log(msg: str):
     ts = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
@@ -68,6 +71,10 @@ def peek_schema(cfg, vendor_name: str, symbol: str, payload: dict):
     except Exception:
         pass
 
+# -------------------------
+# Config / IO helpers
+# -------------------------
+
 def load_config() -> Dict[str, Any]:
     with open("config.yml", "r", encoding="utf-8") as f:
         return yaml.safe_load(f)
@@ -85,6 +92,34 @@ def ensure_dirs(cfg: Dict[str, Any]):
     os.makedirs(os.path.join(cfg["paths"]["cache_dir"], "fmp"), exist_ok=True)
     os.makedirs(os.path.join(cfg["paths"]["cache_dir"], "yf"), exist_ok=True)
     os.makedirs(cfg["paths"]["state_dir"], exist_ok=True)
+
+# -------------------------
+# Vendor pacing / classification
+# -------------------------
+
+def fh_pause(cfg):
+    try:
+        ms = int(cfg.get("finnhub_rate", {}).get("sleep_ms_between_calls", 120))
+        if ms > 0:
+            time.sleep(ms / 1000.0)
+    except Exception:
+        pass
+
+def classify_fmp_402(text: str | None) -> str:
+    if not text:
+        return "FMP_402_unknown"
+    t = text.lower()
+    if "special endpoint" in t and "not available under your current subscription" in t:
+        return "FMP_402_plan_symbol"
+    if "legacy endpoints" in t:
+        return "FMP_402_legacy"
+    if "reached your" in t and "limit" in t:
+        return "FMP_402_quota"
+    return "FMP_402_other"
+
+# -------------------------
+# FMP batch selection
+# -------------------------
 
 def _fmp_cache_usable(cache: dict) -> bool:
     if not cache: return False
@@ -119,11 +154,19 @@ def select_fmp_batch(tickers: List[str], cfg: Dict[str, Any]) -> List[str]:
     save_fmp_state(cfg["paths"]["state_dir"], state)
     return selected
 
+# -------------------------
+# Fetchers
+# -------------------------
+
+FH_RATELIMITED = False
+FMP_QUOTA_TRIPPED = False  # only for actual quota wording, not plan gating
+
 def fetch_finnhub_for_ticker(fh: FinnhubClient, ticker: str, cfg: Dict[str, Any], cache_dir: str) -> Dict[str, Any]:
+    global FH_RATELIMITED
     cache = load_vendor_cache(cache_dir, "finnhub", ticker)
     asof = now_utc_str()
 
-    pt, st_pt = fh.price_targets(ticker)  # may be 403 on your plan; harmless
+    fh_pause(cfg); pt, st_pt = fh.price_targets(ticker)  # may be 403 on free tier
     write_debug(cfg, [f'FH PT {ticker} status={st_pt}'])
     if pt:
         cache["price_targets"] = {
@@ -135,8 +178,10 @@ def fetch_finnhub_for_ticker(fh: FinnhubClient, ticker: str, cfg: Dict[str, Any]
             "asof": asof,
         }
 
-    recs, st_rec = fh.recommendation_trends(ticker)
+    fh_pause(cfg); recs, st_rec = fh.recommendation_trends(ticker)
     write_debug(cfg, [f'FH REC {ticker} status={st_rec}'])
+    if st_rec == 429:
+        FH_RATELIMITED = True
     if recs and isinstance(recs, list):
         rec0 = recs[0]
         cache["recommendations"] = {
@@ -147,19 +192,18 @@ def fetch_finnhub_for_ticker(fh: FinnhubClient, ticker: str, cfg: Dict[str, Any]
             "strongSell": rec0.get("strongSell"),
             "asof": asof,
         }
-        # compute rec_index ~ [-100, +100] and store daily history (for 90d momentum)
+        # rec index [-100, +100] and keep a daily-ish history
         sb, b = rec0.get("strongBuy") or 0, rec0.get("buy") or 0
         h, s, ss = rec0.get("hold") or 0, rec0.get("sell") or 0, rec0.get("strongSell") or 0
         tot = max((sb + b + h + s + ss), 1)
         rec_index = 100.0 * ((2*sb + b) - (s + 2*ss)) / (2.0 * tot)
         append_history(cache, "rec_index", rec_index, asof)
 
-    er, st_er = fh.earnings_surprises(ticker)
+    fh_pause(cfg); er, st_er = fh.earnings_surprises(ticker)
     write_debug(cfg, [f'FH ER {ticker} status={st_er}'])
     if er and isinstance(er, dict) and "earningsCalendar" in er:
         items = er["earningsCalendar"]
-        surprises = []
-        rev_beats = []
+        surprises, rev_beats = [], []
         for it in items[-8:]:
             try:
                 est = it.get("epsEstimate"); act = it.get("epsActual")
@@ -181,35 +225,52 @@ def fetch_finnhub_for_ticker(fh: FinnhubClient, ticker: str, cfg: Dict[str, Any]
     return cache
 
 def fetch_fmp_for_ticker(fmp: FMPClient, ticker: str, cfg: Dict[str, Any], cache_dir: str, state_dir: str) -> Optional[Dict[str, Any]]:
+    global FMP_QUOTA_TRIPPED
+    if FMP_QUOTA_TRIPPED:
+        return None
     if not os.getenv('FMP_API_KEY'):
         write_debug(cfg, [f'FMP {ticker} skipped: no API key'])
         return None
     if is_vendor_failed(state_dir, "fmp", ticker):
         return None
+
     asof = now_utc_str()
     cache = load_vendor_cache(cache_dir, "fmp", ticker) or {}
     try:
-        est, st_est = fmp.analyst_estimates_stable(ticker)
+        retries = int(cfg.get("fmp_harvest", {}).get("retries", 3))
+        est, st_est, body = fmp.analyst_estimates_stable(ticker, retries=retries)
         write_debug(cfg, [f'FMP stable estimates {ticker} status={st_est}'])
-        if est:
+        if st_est == 200 and est:
             cache["analyst_estimates_stable"] = {"raw": est, "asof": asof}
             cache["asof"] = asof
             save_vendor_cache(cache_dir, "fmp", ticker, cache)
             clear_vendor_failure(state_dir, "fmp", ticker)
             return cache
+        elif st_est == 402:
+            reason = classify_fmp_402(body)
+            write_debug(cfg, [f'FMP 402 for {ticker}: {reason}'])
+            if reason == "FMP_402_quota":
+                FMP_QUOTA_TRIPPED = True  # stop remaining FMP calls this run
+            # don't mark failure; try again on later days / skip for plan gating
+            return None
         else:
-            write_debug(cfg, [f'FMP {ticker} stable estimates returned empty'])
+            # other codes (403 legacy, 404 unknown symbol, timeouts exhausted, etc.)
+            write_debug(cfg, [f'FMP ERR {ticker}: status={st_est} body={str(body)[:140]}'])
             return None
     except Exception as e:
         mark_vendor_failure(state_dir, "fmp", ticker, reason=str(e),
                             backoff_days=int(cfg["fmp_harvest"]["failure_backoff_days"]))
         return None
 
+# -------------------------
+# FMP parsing helpers
+# -------------------------
+
 def extract_growth_from_fmp_stable(fmp_cache: dict) -> Tuple[Optional[float],Optional[float],Optional[float],Optional[float]]:
     """
     From FMP stable analyst-estimates (annual), derive:
       (est_rev_nextFY, rev_lastFY, est_netinc_nextFY, netinc_lastFY)
-    Minimal calls, use previous row as "last" when next is future-dated.
+    Uses previous row as "last" when next is future-dated.
     """
     try:
         raw = (fmp_cache or {}).get("analyst_estimates_stable", {}).get("raw") or []
@@ -228,30 +289,33 @@ def extract_growth_from_fmp_stable(fmp_cache: dict) -> Tuple[Optional[float],Opt
 
         today = date.today()
         next_idx = None
-        for i,(dt,_) in enumerate(rows):
-            if dt >= today:
+        for i,(dt0,_) in enumerate(rows):
+            if dt0 >= today:
                 next_idx = i
                 break
         if next_idx is None:
-            # all past: use last two as last/next proxies
+            # all past: last two rows as proxies
             last_dt, last_r = rows[-2] if len(rows) >= 2 else rows[-1]
             next_dt, next_r = rows[-1]
         else:
             next_dt, next_r = rows[next_idx]
             last_dt, last_r = rows[next_idx-1] if next_idx > 0 else rows[next_idx]
 
-        rev_next = next_r.get("revenueAvg")
-        rev_last = last_r.get("revenueAvg")
-        ni_next  = next_r.get("netIncomeAvg")
-        ni_last  = last_r.get("netIncomeAvg")
-
         def _f(x):
             try: return float(x)
             except Exception: return None
 
-        return _f(rev_next), _f(rev_last), _f(ni_next), _f(ni_last)
+        rev_next = _f(next_r.get("revenueAvg"))
+        rev_last = _f(last_r.get("revenueAvg"))
+        ni_next  = _f(next_r.get("netIncomeAvg"))
+        ni_last  = _f(last_r.get("netIncomeAvg"))
+        return rev_next, rev_last, ni_next, ni_last
     except Exception:
         return None, None, None, None
+
+# -------------------------
+# Main
+# -------------------------
 
 def main():
     cfg = load_config()
@@ -282,16 +346,22 @@ def main():
     for idx, row in tick.iterrows():
         symbol = row["ticker"]; sector = row["sector"]
 
+        # ---- Finnhub (with light throttle) ----
         if use_fh:
             fetch_finnhub_for_ticker(fh, symbol, cfg, cfg["paths"]["cache_dir"])
+
+        # ---- Yahoo quotes ----
         if use_yf:
             q = yfinance_last_and_prev_close(symbol)
             if q:
                 save_vendor_cache(cfg["paths"]["cache_dir"], "yf", symbol,
                                   {"last_close": q["last_close"], "prev_close": q["prev_close"], "asof": now_utc_str()})
-        if use_fmp and symbol in fmp_batch:
+
+        # ---- FMP (stable estimates) ----
+        if use_fmp and (symbol in fmp_batch) and not FMP_QUOTA_TRIPPED:
             fetch_fmp_for_ticker(fmp, symbol, cfg, cfg["paths"]["cache_dir"], cfg["paths"]["state_dir"])
 
+        # ---- Load caches ----
         fh_cache = load_vendor_cache(cfg["paths"]["cache_dir"], "finnhub", symbol)
         fmp_cache = load_vendor_cache(cfg["paths"]["cache_dir"], "fmp", symbol)
         yf_cache  = load_vendor_cache(cfg["paths"]["cache_dir"], "yf", symbol)
@@ -312,7 +382,6 @@ def main():
         if pt_median is None:
             ypt = yfinance_targets(symbol)
             if ypt:
-                # take all fields from Yahoo fallback
                 pt_median = ypt.get("median")
                 pt_mean   = ypt.get("mean")
                 pt_high   = ypt.get("high")
@@ -328,7 +397,7 @@ def main():
         # ----- FORWARD GROWTH from FMP stable (single call) -----
         est_rev_nextFY, rev_lastFY, est_ni_nextFY, ni_lastFY = extract_growth_from_fmp_stable(fmp_cache)
 
-        # ----- REVISIONS (we still maintain PT history for momentum where available) -----
+        # ----- REVISIONS (keep PT history for momentum) -----
         if pt_median is not None:
             append_history(fh_cache, "pt_median", float(pt_median), now_utc_str())
             save_vendor_cache(cfg["paths"]["cache_dir"], "finnhub", symbol, fh_cache)
@@ -373,15 +442,17 @@ def main():
         est_mul = linear_decay_weight(est_age, cfg["freshness"]["estimates_full_days"], cfg["freshness"]["estimates_zero_days"])
         pt_mul  = linear_decay_weight(pt_age,  cfg["freshness"]["pt_full_days"],        cfg["freshness"]["pt_zero_days"])
 
-        # ----- Debug missing -----
-        missing = []
-        if pt_median is None: missing.append("pt_median")
-        if est_rev_nextFY is None or rev_lastFY is None: missing.append("rev_growth")
-        if est_ni_nextFY is None or ni_lastFY is None: missing.append("ni_growth")
-        if last_close is None: missing.append("last_close")
-        if missing:
-            write_debug(cfg, [f"DEBUG: ticker={symbol} missing={','.join(missing)}"])
+        # ----- Reasons for missing (for audit) -----
+        reason_growth = None
+        if (est_rev_nextFY is None or rev_lastFY is None or est_ni_nextFY is None or ni_lastFY is None):
+            has_raw = bool((fmp_cache or {}).get("analyst_estimates_stable", {}).get("raw"))
+            reason_growth = "FMP_no_data" if not has_raw else "parse_fail"
 
+        reason_rec = None
+        if rec_index_latest is None:
+            reason_rec = "FH_no_data_or_429"
+
+        # ----- Row -----
         rows.append({
             "ticker": symbol, "sector": sector,
             "last_close": last_close, "prev_close": prev_close,
@@ -394,12 +465,15 @@ def main():
             "rev_beat_rate": (fh_cache.get("earnings") or {}).get("rev_beat_rate"),
             "est_age_days": est_age, "est_decay_mult": est_mul,
             "pt_age_days": pt_age, "pt_decay_mult": pt_mul,
+            "reason_missing_growth": reason_growth,
+            "reason_missing_rec": reason_rec,
             "asof": now_utc_str()
         })
 
         if (idx + 1) % progress_every == 0:
             log(f"Processed {idx + 1} / {len(symbols)} tickers so far.")
 
+    # ---- scoring & output ----
     df = pd.DataFrame(rows)
     df_scored = compute_component_columns(df, cfg)
     df_scored = apply_weights_and_gates(df_scored, cfg)
@@ -408,7 +482,7 @@ def main():
     out_path = os.path.join(cfg["paths"]["output_dir"], "analyst_grade.csv")
     df_final.to_csv(out_path, index=False)
 
-    # small audit
+    # audit
     audit_rows = []
     for r in rows:
         audit_rows.append({
@@ -418,7 +492,9 @@ def main():
             'has_ni': (r.get('est_ni_nextFY') is not None and r.get('ni_lastFY') is not None),
             'has_quote': r.get('last_close') is not None,
             'rec_index': r.get('rec_index'),
-            'pt_age_days': r.get('pt_age_days')
+            'pt_age_days': r.get('pt_age_days'),
+            'reason_missing_growth': r.get('reason_missing_growth'),
+            'reason_missing_rec': r.get('reason_missing_rec'),
         })
     pd.DataFrame(audit_rows).to_csv(os.path.join(cfg['paths']['output_dir'], 'audit_fetch.csv'), index=False)
 

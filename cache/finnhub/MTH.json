@@ -1,0 +1,38 @@
+{
+  "price_targets": {
+    "median": null,
+    "mean": null,
+    "high": null,
+    "low": null,
+    "analystCount": null,
+    "asof": "2025-09-17T23:35:59Z"
+  },
+  "recommendations": {
+    "strongBuy": 3,
+    "buy": 6,
+    "hold": 7,
+    "sell": 0,
+    "strongSell": 0,
+    "asof": "2025-09-17T23:35:59Z"
+  },
+  "_history": {
+    "rec_index": [
+      {
+        "ts": "2025-09-17T23:35:59Z",
+        "value": 37.5
+      }
+    ],
+    "pt_median": [
+      {
+        "ts": "2025-09-17T23:36:01Z",
+        "value": 87.5
+      }
+    ]
+  },
+  "earnings": {
+    "eps_surprise_avg": null,
+    "rev_beat_rate": null,
+    "asof": "2025-09-17T23:35:59Z"
+  },
+  "asof": "2025-09-17T23:35:59Z"
+}

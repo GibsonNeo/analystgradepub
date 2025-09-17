@@ -1,0 +1,19 @@
+{
+  "price_targets": {
+    "median": null,
+    "mean": null,
+    "high": null,
+    "low": null,
+    "analystCount": null,
+    "asof": "2025-09-17T23:35:54Z"
+  },
+  "asof": "2025-09-17T23:35:54Z",
+  "_history": {
+    "pt_median": [
+      {
+        "ts": "2025-09-17T23:35:56Z",
+        "value": 33.5
+      }
+    ]
+  }
+}
