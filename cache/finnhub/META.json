@@ -1,5 +1,5 @@
 {
-  "asof": "2025-09-17T23:35:02Z",
+  "asof": "2025-09-18T00:26:10Z",
   "_history": {
     "pt_median": [
       {
@@ -12,6 +12,10 @@
       },
       {
         "ts": "2025-09-17T23:35:03Z",
+        "value": 875.0
+      },
+      {
+        "ts": "2025-09-18T00:26:12Z",
         "value": 875.0
       }
     ],
@@ -37,7 +41,7 @@
   "earnings": {
     "eps_surprise_avg": null,
     "rev_beat_rate": null,
-    "asof": "2025-09-17T23:35:02Z"
+    "asof": "2025-09-18T00:26:10Z"
   },
   "price_targets": {
     "median": null,
@@ -45,6 +49,6 @@
     "high": null,
     "low": null,
     "analystCount": null,
-    "asof": "2025-09-17T23:35:02Z"
+    "asof": "2025-09-18T00:26:10Z"
   }
 }

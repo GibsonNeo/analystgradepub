@@ -1,5 +1,5 @@
 {
-  "asof": "2025-09-17T22:13:28Z",
+  "asof": "2025-09-18T00:31:14Z",
   "_history": {
     "pt_median": [
       {
@@ -9,7 +9,24 @@
       {
         "ts": "2025-09-17T22:13:29Z",
         "value": 47.0
+      },
+      {
+        "ts": "2025-09-18T00:31:16Z",
+        "value": 47.0
       }
     ]
+  },
+  "price_targets": {
+    "median": null,
+    "mean": null,
+    "high": null,
+    "low": null,
+    "analystCount": null,
+    "asof": "2025-09-18T00:31:14Z"
+  },
+  "earnings": {
+    "eps_surprise_avg": null,
+    "rev_beat_rate": null,
+    "asof": "2025-09-18T00:31:14Z"
   }
 }

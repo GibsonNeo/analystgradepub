@@ -5,7 +5,7 @@
     "high": null,
     "low": null,
     "analystCount": null,
-    "asof": "2025-09-17T23:36:01Z"
+    "asof": "2025-09-18T00:27:04Z"
   },
   "recommendations": {
     "strongBuy": 5,
@@ -26,6 +26,10 @@
       {
         "ts": "2025-09-17T23:36:02Z",
         "value": 39.5
+      },
+      {
+        "ts": "2025-09-18T00:27:05Z",
+        "value": 39.5
       }
     ]
   },
@@ -34,5 +38,5 @@
     "rev_beat_rate": null,
     "asof": "2025-09-17T23:36:01Z"
   },
-  "asof": "2025-09-17T23:36:01Z"
+  "asof": "2025-09-18T00:27:04Z"
 }
